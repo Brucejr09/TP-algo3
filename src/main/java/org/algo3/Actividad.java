@@ -2,6 +2,7 @@ package org.algo3;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public abstract class Actividad {
     protected String titulo;
@@ -14,19 +15,12 @@ public abstract class Actividad {
         this.descripcion = descripcion;
     }
 
-    public void actividadDiaria (int anio, int mes, int dia) {
-        this.comienza = this.comenzaActividad (anio, mes, dia);
-        this.finaliza = LocalDateTime.of(anio, mes, dia, 23, 59, 59, 999999999);
+    public void actividadDiaria (LocalDate dia) {
+        this.comienza = LocalDateTime.of(dia, LocalTime.MIN);
+        this.finaliza = LocalDateTime.of(dia.plusDays(1), LocalTime.MIN);
     }
 
-    public void finalizaActividad (int anio, int mes, int dia, int hora, int minuto) {
-        this.finaliza = LocalDateTime.of(anio, mes, dia, hora, minuto);
-    }
-
-    private LocalDateTime comenzaActividad (int anio, int mes, int dia) {
-        if (LocalDate.now().equals(LocalDate.of(anio, mes, dia)))
-            return LocalDateTime.now();
-        else
-            return LocalDateTime.of(anio, mes, dia, 0, 0, 0, 0);
+    public void finalizaActividad (LocalDate fechaLimite, LocalTime horarioLimite) {
+        this.finaliza = LocalDateTime.of(fechaLimite, horarioLimite);
     }
 }

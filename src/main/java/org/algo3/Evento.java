@@ -1,30 +1,24 @@
 package org.algo3;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-public class Evento extends Actividad{
+public class Evento extends Actividad implements Frecuencia<LocalDateTime> {
+    private LocalDateTime duracion;
+    private int repeticiones;
     public Evento (String nombre, String descripcion) {
         super(nombre, descripcion);
+        this.repeticiones = 0;
     }
 
-    public void comienzaEvento (int anio, int mes, int dia, int hora, int minuto) {
-        this.comienza = LocalDateTime.of(anio, mes, dia, hora, minuto);
+    public LocalDateTime Diariamente (long dias) {
+        LocalDateTime nuevaFecha = this.finaliza.plusDays(dias);
+        return LocalDateTime.of(nuevaFecha.toLocalDate(), this.comienza.toLocalTime());
     }
 
-    public void finalizaEvento () {
-        this.finaliza = LocalDateTime.MAX;
-    }
-
-    public Evento repetirDiariamente (long dias) {
-        Evento eventoRepetido = new Evento(this.titulo, this.descripcion);
-        LocalDateTime nuevaFecha = this.comienza.plusDays(dias);
-        eventoRepetido.comienzaEvento(nuevaFecha.getYear(), nuevaFecha.getMonthValue(), nuevaFecha.getDayOfMonth(), nuevaFecha.getHour(), nuevaFecha.getMinute());
-        return eventoRepetido;
-    }
-
-    public Evento repetirSemanalmente (String dia) {
-        Evento eventoRepetido = new Evento(this.titulo, this.descripcion);
+    public LocalDateTime Semanalmente (String dia) {
         LocalDateTime nuevaFecha = this.comienza;
         boolean coincidio = true;
 
@@ -35,21 +29,43 @@ public class Evento extends Actividad{
         if (coincidio)
             nuevaFecha = this.comienza.plusWeeks(1);
 
-        eventoRepetido.comienzaEvento(nuevaFecha.getYear(), nuevaFecha.getMonthValue(), nuevaFecha.getDayOfMonth(), nuevaFecha.getHour(), nuevaFecha.getMinute());
+        return nuevaFecha;
+    }
+
+    public LocalDateTime Mensualmente () {
+        return this.comienza.plusMonths(1);
+    }
+
+    public LocalDateTime Anualmente () {
+        return this.comienza.plusYears(1);
+    }
+
+    public void comienzaEvento (LocalDate fechaApertura, LocalTime horarioApertura) {
+        this.comienza = LocalDateTime.of(fechaApertura, horarioApertura);
+    }
+
+    public void duracionInfinita () {
+        this.duracion = LocalDateTime.MAX;
+    }
+
+    public void duracionHastaFecha (LocalDate fechaLimite, LocalTime horarioLimite) {
+        this.duracion = LocalDateTime.of(fechaLimite, horarioLimite);
+    }
+
+    public void duracionHastaRepetir (int repeticiones) {
+        if (repeticiones != this.repeticiones)
+            this.duracion = this.finaliza;
+    }
+
+    public Evento repetirEvento (LocalDateTime frecuencia) {
+        Evento eventoRepetido = new Evento(this.titulo, this.descripcion);
+        eventoRepetido.comienzaEvento(frecuencia.toLocalDate(), frecuencia.toLocalTime());
+        eventoRepetido.asignarFinaliza(this.finaliza);
+        this.repeticiones++;
         return eventoRepetido;
     }
 
-    public Evento repetirMensualmente () {
-        Evento eventoRepetido = new Evento(this.titulo, this.descripcion);
-        LocalDateTime nuevaFecha = this.comienza.plusMonths(1);
-        eventoRepetido.comienzaEvento(nuevaFecha.getYear(), nuevaFecha.getMonthValue(), nuevaFecha.getDayOfMonth(), nuevaFecha.getHour(), nuevaFecha.getMinute());
-        return eventoRepetido;
+    private void asignarFinaliza (LocalDateTime finaliza) {
+        this.finaliza = finaliza;
     }
-
-    public Evento repetirAnualmente () {
-        Evento eventoRepetido = new Evento(this.titulo, this.descripcion);
-        LocalDateTime nuevaFecha = this.comienza.plusYears(1);
-        eventoRepetido.comienzaEvento(nuevaFecha.getYear(), nuevaFecha.getMonthValue(), nuevaFecha.getDayOfMonth(), nuevaFecha.getHour(), nuevaFecha.getMinute());
-        return eventoRepetido;
-    }
-}}
+}
