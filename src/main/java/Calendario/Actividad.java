@@ -1,4 +1,4 @@
-package org.algo3;
+package Calendario;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,12 +15,18 @@ public abstract class Actividad {
         this.descripcion = descripcion;
     }
 
+    public void comienzaActividad (LocalDateTime fechaHoraComienzo) {
+        this.comienza = fechaHoraComienzo;
+    }
+
     public void actividadDiaria (LocalDate dia) {
         this.comienza = LocalDateTime.of(dia, LocalTime.MIN);
         this.finaliza = LocalDateTime.of(dia.plusDays(1), LocalTime.MIN);
     }
 
-    public void finalizaActividad (LocalDate fechaLimite, LocalTime horarioLimite) {
-        this.finaliza = LocalDateTime.of(fechaLimite, horarioLimite);
+    public void finalizaActividad (LocalDateTime fechaHoraLimite) {
+        this.finaliza = fechaHoraLimite;
     }
+
+    public abstract void ejecutar(LocalDateTime fechaHoraActual);
 }

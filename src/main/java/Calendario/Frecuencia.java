@@ -1,4 +1,4 @@
-package org.algo3;
+package Calendario;
 
 public interface Frecuencia<T> {
     T Diariamente (long dias);

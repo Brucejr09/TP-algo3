@@ -1,4 +1,4 @@
-package org.algo3;
+package Calendario;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -11,6 +11,11 @@ public class Evento extends Actividad implements Frecuencia<LocalDateTime> {
     public Evento (String nombre, String descripcion) {
         super(nombre, descripcion);
         this.repeticiones = 0;
+    }
+
+    @Override
+    public void ejecutar(LocalDateTime fechaHoraActual) {
+
     }
 
     public LocalDateTime Diariamente (long dias) {
@@ -40,10 +45,6 @@ public class Evento extends Actividad implements Frecuencia<LocalDateTime> {
         return this.comienza.plusYears(1);
     }
 
-    public void comienzaEvento (LocalDate fechaApertura, LocalTime horarioApertura) {
-        this.comienza = LocalDateTime.of(fechaApertura, horarioApertura);
-    }
-
     public void duracionInfinita () {
         this.duracion = LocalDateTime.MAX;
     }
@@ -59,7 +60,7 @@ public class Evento extends Actividad implements Frecuencia<LocalDateTime> {
 
     public Evento repetirEvento (LocalDateTime frecuencia) {
         Evento eventoRepetido = new Evento(this.titulo, this.descripcion);
-        eventoRepetido.comienzaEvento(frecuencia.toLocalDate(), frecuencia.toLocalTime());
+        eventoRepetido.comienzaActividad(frecuencia);
         eventoRepetido.asignarFinaliza(this.finaliza);
         this.repeticiones++;
         return eventoRepetido;

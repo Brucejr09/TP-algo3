@@ -1,4 +1,4 @@
-package org.algo3;
+package Calendario;
 
 import java.time.LocalDateTime;
 
@@ -10,11 +10,16 @@ public class Tarea extends Actividad {
         this.completada = false;
     }
 
-    public void comienzaTarea () {
-        this.comienza = LocalDateTime.now();
+    @Override
+    public void ejecutar(LocalDateTime fechaHoraActual) {
+        if(fechaHoraActual.isAfter(this.finaliza) || fechaHoraActual.isEqual(this.finaliza)){ this.tareaCompletada(); }
     }
+
     public void tareaCompletada () {
         this.completada = true;
     }
 
+    public boolean estaCompletada() {
+        return completada;
+    }
 }
