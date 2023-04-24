@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventoSemanal extends Evento{
-    public EventoSemanal(String titulo, String descripcion, int frecuencia) {
-        super(titulo, descripcion, frecuencia);
+    public EventoSemanal(String titulo, String descripcion, int frecuencia, int id) {
+        super(titulo, descripcion, frecuencia, id);
+    }
+
+    public EventoSemanal (String titulo, String descripcion, int frecuencia, LocalDate duracion, ArrayList<Alarma> alarmas, int id) {
+        super(titulo, descripcion, frecuencia, duracion, alarmas, id);
     }
 
     @Override

@@ -61,7 +61,6 @@ public class EventoDiarioTest {
         evento.asignarDuracionInfinita();
         List<Evento> eventos = new ArrayList<>();
         eventos = evento.repetir(eventos, LocalDate.of(2022, 12, 14));
-        eventos.add(evento);
 
         assertEquals(eventos, evento.repetir(eventos, LocalDate.of(2022, 12, 14)));
     }

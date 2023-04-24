@@ -14,13 +14,26 @@ public abstract class Evento implements DiaCompleto, FechaLimite {
     protected LocalDate duracion;
     protected int frecuencia;
     protected ArrayList<Alarma> alarmas;
+    protected int id;
 
-    public Evento (String titulo, String descripcion, int frecuencia) {
+    public Evento (String titulo, String descripcion, int frecuencia, int id) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.frecuencia = frecuencia;
         this.comienza = LocalDateTime.MIN;
         this.finaliza = LocalDateTime.MIN;
+        this.id = id;
+    }
+
+    public Evento (String titulo, String descripcion, int frecuencia, LocalDate duracion, ArrayList<Alarma> alarmas, int id) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.frecuencia = frecuencia;
+        this.comienza = LocalDateTime.MIN;
+        this.finaliza = LocalDateTime.MIN;
+        this.duracion = duracion;
+        this.alarmas = alarmas;
+        this.id = id;
     }
 
     public void asignarTitulo (String titulo) {
