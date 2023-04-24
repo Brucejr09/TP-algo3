@@ -61,4 +61,16 @@ public abstract class Evento implements DiaCompleto, FechaLimite {
         this.duracion = fechaLimite;
     }
     public abstract List<Evento> repetir (List<Evento> lista, LocalDate maximo);
+
+    public boolean estaEnEspera (LocalDateTime fechaActual) {
+        return fechaActual.isBefore(this.comienza);
+    }
+
+    public boolean estaFinalizado (LocalDateTime fechaActual) {
+        return fechaActual.isAfter(this.finaliza);
+    }
+
+    public boolean estaRealizandose (LocalDateTime fechaActual) {
+        return (fechaActual.equals(this.comienza) || fechaActual.isAfter(this.comienza)) && (fechaActual.equals(this.finaliza) || fechaActual.isBefore(this.finaliza));
+    }
 }
