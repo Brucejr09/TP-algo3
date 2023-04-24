@@ -1,4 +1,4 @@
-package Calendario.calendario;
+package Calendario;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,12 +8,6 @@ public class EventoUnico extends Evento{
     public EventoUnico(String titulo, String descripcion, int frecuencia) {
         super(titulo, descripcion, frecuencia);
         this.frecuencia = 0;
-    }
-
-    @Override
-    public EventoUnico crear(String titulo, String descripcion, int frecuencia, String dia, String duracion) {
-        EventoUnico evento = new EventoUnico(titulo, descripcion, frecuencia);
-        return null;
     }
 
     @Override

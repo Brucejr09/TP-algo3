@@ -1,4 +1,4 @@
-import calendario.*;
+import Calendario.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,23 +48,11 @@ public class Calendario {
         return tarea;
     }
     public void modificar () {}
-    public Tarea eliminar (Tarea tareaAEliminar) {
-        int indiceTarea = this.tareas.indexOf(tareaAEliminar);
-        Tarea tarea;
-
-        if (indiceTarea == -1)
-            return null;
-        else
-            return this.tareas.remove(indiceTarea);
+    public boolean eliminar (Tarea tareaAEliminar) {
+        return this.tareas.remove(tareaAEliminar);
     }
 
-    public Evento eliminar (Evento eventoAEliminar) {
-        int indiceEvento = this.eventos.indexOf(eventoAEliminar);
-        Evento evento;
-
-        if (indiceEvento == -1)
-            return null;
-        else
-            return this.eventos.remove(indiceEvento);
+    public boolean eliminar (Evento eventoAEliminar) {
+        return this.eventos.remove(eventoAEliminar);
     }
 }

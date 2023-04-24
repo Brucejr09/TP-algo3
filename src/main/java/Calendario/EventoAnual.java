@@ -1,24 +1,25 @@
-package Calendario.calendario;
+package Calendario;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventoDiario extends Evento{
-    public EventoDiario(String titulo, String descripcion, int frecuencia) {
+public class EventoAnual extends Evento{
+    public EventoAnual(String titulo, String descripcion, int frecuencia) {
         super(titulo, descripcion, frecuencia);
+        this.frecuencia = 1;
     }
 
     @Override
     public List<Evento> repetir(List<Evento> lista, LocalDate maximo) {
         List<Evento> nuevaLista = new ArrayList<>(lista);
-        LocalDateTime siguienteEvento = this.comienza.plusDays(this.frecuencia);
+        LocalDateTime siguienteEvento = this.comienza.plusYears(this.frecuencia);
 
-        if ((siguienteEvento.toLocalDate().isBefore(maximo) || siguienteEvento.toLocalDate().equals(maximo)) && siguienteEvento.toLocalDate().isBefore(this.duracion)) {
-            EventoDiario eventoRepetido = this;
+        if ((this.comienza.toLocalDate().isBefore(maximo) || this.comienza.toLocalDate().equals(maximo)) && this.comienza.toLocalDate().isBefore(this.duracion)) {
+            EventoAnual eventoRepetido = this;
             eventoRepetido.asignarComienza(siguienteEvento);
-            siguienteEvento = this.finaliza.plusDays(this.frecuencia);
+            siguienteEvento = this.finaliza.plusYears(this.frecuencia);
             eventoRepetido.asignarFinaliza(siguienteEvento);
             nuevaLista.add(eventoRepetido);
             return eventoRepetido.repetir(nuevaLista, maximo);
@@ -28,7 +29,7 @@ public class EventoDiario extends Evento{
 
     @Override
     public void asignarDuracionHastaRepetir(long repeticiones) {
-        LocalDateTime fecha = this.comienza.plusDays(this.frecuencia * (repeticiones - 1));
+        LocalDateTime fecha = this.comienza.plusYears(repeticiones - this.frecuencia);
         this.duracion = fecha.toLocalDate();
     }
 }

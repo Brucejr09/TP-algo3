@@ -1,22 +1,44 @@
 package Calendario;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-public class Tarea extends Actividad {
+public class Tarea implements DiaCompleto {
+    private String titulo;
+    private String descripcion;
+    private LocalDateTime comienza;
+    private LocalDateTime finaliza;
+    private Alarma alarmas;
     private boolean completada;
-
-    public Tarea (String nombre, String descripcion) {
-        super(nombre, descripcion);
+    public Tarea (String titulo, String descripcion) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
         this.completada = false;
+    }
+    public void asignarTitulo (String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void asignarDescripcion (String descripcion) {
+        this.descripcion = descripcion;
+    }
+    public void asignarVencimiento(LocalDateTime fechaHoraVencimiento) {
+        this.comienza = fechaHoraVencimiento;
+        this.finaliza = fechaHoraVencimiento;
     }
 
     @Override
-    public void ejecutar(LocalDateTime fechaHoraActual) {
-        if(fechaHoraActual.isAfter(this.finaliza) || fechaHoraActual.isEqual(this.finaliza)){ this.tareaCompletada(); }
+    public void asignarDiaCompleto(LocalDate dia) {
+        this.comienza = LocalDateTime.of(dia, LocalTime.MIN);
+        this.finaliza = LocalDateTime.of(dia.plusDays(1), LocalTime.MIN);
+    }
+    public void completarTarea() {
+        this.completada = true;
     }
 
-    public void tareaCompletada () {
-        this.completada = true;
+    public void ejecutar(LocalDateTime fechaHoraActual) {
+        if (fechaHoraActual.isAfter(finaliza) || fechaHoraActual.equals(finaliza)) { completarTarea(); }
     }
 
     public boolean estaCompletada() {
