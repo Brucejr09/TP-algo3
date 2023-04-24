@@ -6,11 +6,13 @@ import java.util.ArrayList;
 
 public class Calendario {
     private LocalDateTime fechaHoraActual;
-    private ArrayList<Actividad> actividades;
+    private ArrayList<Tarea> tareas;
+    private ArrayList<Evento> eventos;
 
     public Calendario(LocalDateTime fechaHoraActual) {
         this.fechaHoraActual = fechaHoraActual;
-        this.actividades = new ArrayList<>();
+        this.eventos = new ArrayList<>();
+        this.tareas = new ArrayList<>();
     }
 
     public String fechaActual() {
@@ -23,15 +25,15 @@ public class Calendario {
 
     public void avanzarTiempo() {
         this.fechaHoraActual = fechaHoraActual.plusMinutes(15);
-        for (Actividad actividad:actividades) {
-            actividad.ejecutar(fechaHoraActual);
+        for (Tarea tarea:tareas) {
+            tarea.ejecutar(fechaHoraActual);
         }
     }
 
     public Tarea crearTarea(String nombre, String descripcion,LocalDate fecha) {
         Tarea nuevaTarea = new Tarea(nombre,descripcion);
-        nuevaTarea.actividadDiaria(fecha);
-        this.actividades.add(nuevaTarea);
+        nuevaTarea.asignarDiaCompleto(fecha);
+        this.tareas.add(nuevaTarea);
         return nuevaTarea;
     }
 
@@ -41,9 +43,11 @@ public class Calendario {
 
     public Tarea crearTarea(String nombre, String descripcion, LocalDateTime fechaLimite) {
         Tarea nuevaTarea = new Tarea(nombre,descripcion);
-        nuevaTarea.comienzaActividad(fechaHoraActual);
-        nuevaTarea.finalizaActividad(fechaLimite);
-        this.actividades.add(nuevaTarea);
+        nuevaTarea.asignarVencimiento(fechaLimite);
+        this.tareas.add(nuevaTarea);
         return nuevaTarea;
+    }
+
+    public Evento crearEvento(String titulo, String descripcion) {
     }
 }

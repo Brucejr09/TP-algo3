@@ -1,4 +1,4 @@
-package Calendario.calendario;
+package Calendario;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

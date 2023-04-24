@@ -1,72 +1,63 @@
 package Calendario;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
-public class Evento extends Actividad implements Frecuencia<LocalDateTime> {
-    private LocalDateTime duracion;
-    private int repeticiones;
-    public Evento (String nombre, String descripcion) {
-        super(nombre, descripcion);
-        this.repeticiones = 0;
+public abstract class Evento implements DiaCompleto, FechaLimite {
+    protected String titulo;
+    protected String descripcion;
+    protected LocalDateTime comienza;
+    protected LocalDateTime finaliza;
+    protected LocalDate duracion;
+    protected int frecuencia;
+    protected Alarma alarmas;
+
+    public Evento (String titulo, String descripcion, int frecuencia) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.frecuencia = frecuencia;
+        this.comienza = LocalDateTime.MIN;
+        this.finaliza = LocalDateTime.MIN;
+    }
+
+    public void asignarTitulo (String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void asignarDescripcion (String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void asignarComienza(LocalDateTime fechaHoraComienzo) {
+        if (fechaHoraComienzo.isAfter(this.finaliza)) {
+            this.comienza = fechaHoraComienzo;
+            this.finaliza = fechaHoraComienzo;
+        }
+        else
+            this.comienza = fechaHoraComienzo;
+    }
+
+    public void asignarFinaliza(LocalDateTime fechaHoraLimite) {
+        if (this.comienza.isBefore(fechaHoraLimite) || fechaHoraLimite.equals(this.comienza))
+            this.finaliza = fechaHoraLimite;
     }
 
     @Override
-    public void ejecutar(LocalDateTime fechaHoraActual) {
-
+    public void asignarDiaCompleto(LocalDate dia) {
+        this.comienza = LocalDateTime.of(dia, LocalTime.MIN);
+        this.finaliza = LocalDateTime.of(dia.plusDays(1), LocalTime.MIN);
     }
 
-    public LocalDateTime Diariamente (long dias) {
-        LocalDateTime nuevaFecha = this.finaliza.plusDays(dias);
-        return LocalDateTime.of(nuevaFecha.toLocalDate(), this.comienza.toLocalTime());
+    @Override
+    public void asignarDuracionInfinita() {
+        this.duracion = LocalDate.MAX;
     }
 
-    public LocalDateTime Semanalmente (String dia) {
-        LocalDateTime nuevaFecha = this.comienza;
-        boolean coincidio = true;
-
-        while (!nuevaFecha.getDayOfWeek().equals(DayOfWeek.valueOf(dia))) {
-            nuevaFecha = nuevaFecha.plusDays(1);
-            coincidio = false;
-        }
-        if (coincidio)
-            nuevaFecha = this.comienza.plusWeeks(1);
-
-        return nuevaFecha;
+    @Override
+    public void asignarDuracionHastaFecha(LocalDate fechaLimite) {
+        this.duracion = fechaLimite;
     }
-
-    public LocalDateTime Mensualmente () {
-        return this.comienza.plusMonths(1);
-    }
-
-    public LocalDateTime Anualmente () {
-        return this.comienza.plusYears(1);
-    }
-
-    public void duracionInfinita () {
-        this.duracion = LocalDateTime.MAX;
-    }
-
-    public void duracionHastaFecha (LocalDate fechaLimite, LocalTime horarioLimite) {
-        this.duracion = LocalDateTime.of(fechaLimite, horarioLimite);
-    }
-
-    public void duracionHastaRepetir (int repeticiones) {
-        if (repeticiones != this.repeticiones)
-            this.duracion = this.finaliza;
-    }
-
-    public Evento repetirEvento (LocalDateTime frecuencia) {
-        Evento eventoRepetido = new Evento(this.titulo, this.descripcion);
-        eventoRepetido.comienzaActividad(frecuencia);
-        eventoRepetido.asignarFinaliza(this.finaliza);
-        this.repeticiones++;
-        return eventoRepetido;
-    }
-
-    private void asignarFinaliza (LocalDateTime finaliza) {
-        this.finaliza = finaliza;
-    }
+    public abstract List<Evento> repetir (List<Evento> lista, LocalDate maximo);
 }

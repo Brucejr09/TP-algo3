@@ -66,8 +66,8 @@ public class Test01 {
         assertTrue(tareaACompletar.estaCompletada());
     }
 
-/*    @Test
-    public void Test06EventoConFechaDeSeMarcaComoCompletadaCorrectamente(){
+    @Test
+    public void Test06LaAlarma(){
         Calendario calendario = new Calendario(LocalDateTime.of(2023,7,16,21,15));
         Tarea tareaACompletar = calendario.crearEvento("Cumpleaños","Cumple de alejandro",LocalDate.of(2023,7,16));
 
@@ -77,5 +77,5 @@ public class Test01 {
 
         assertTrue(tareaACompletar.estaCompletada());
     }
-*/
+
 }

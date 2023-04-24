@@ -1,4 +1,4 @@
-package Calendario.calendario;
+package Calendario;
 
 public enum Dia {
     COMPLETO,
