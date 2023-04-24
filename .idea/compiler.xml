@@ -9,8 +9,5 @@
         <module name="TP-algo3" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="TP-algo3" target="19" />
-    </bytecodeTargetLevel>
   </component>
 </project>

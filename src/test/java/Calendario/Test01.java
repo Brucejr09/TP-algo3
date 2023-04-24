@@ -67,15 +67,16 @@ public class Test01 {
     }
 
     @Test
-    public void Test06LaAlarma(){
-        Calendario calendario = new Calendario(LocalDateTime.of(2023,7,16,21,15));
-        Tarea tareaACompletar = calendario.crearEvento("Cumpleaños","Cumple de alejandro",LocalDate.of(2023,7,16));
+    public void Test06LaAlarmaSeActiva15minAntesDelComienzoDeUnaTarea(){
+        Calendario calendario = new Calendario(LocalDateTime.of(2023,7,15,23,30));
+        Tarea tareaACompletar = calendario.crearTarea("Cumpleaños","Cumple de alejandro",LocalDate.of(2023,7,16));
+        Alarma alarmaASonar = calendario.asignarAlarma(15,tareaACompletar);
 
-        assertFalse(tareaACompletar.estaCompletada());
+        assertFalse(alarmaASonar.estaActivada());
 
         calendario.avanzarTiempo();
 
-        assertTrue(tareaACompletar.estaCompletada());
+        assertTrue(alarmaASonar.estaActivada());
     }
 
 }

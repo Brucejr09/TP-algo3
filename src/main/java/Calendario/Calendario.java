@@ -48,6 +48,9 @@ public class Calendario {
         return nuevaTarea;
     }
 
-    public Evento crearEvento(String titulo, String descripcion) {
+    public Alarma asignarAlarma(int minutosAntes, Tarea tarea){
+        Alarma alarma = new AlarmaSonora();
+        tarea.asignarAlarma(alarma, minutosAntes);
+        return alarma;
     }
 }
