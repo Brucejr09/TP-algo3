@@ -1,5 +1,7 @@
 package Calendario;
 
+import Calendario.Alarma.Alarma;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,11 +14,13 @@ public class Tarea implements DiaCompleto {
     private LocalDateTime finaliza;
     private ArrayList<Alarma> alarmas;
     private boolean completada;
-    public Tarea (String titulo, String descripcion) {
+    private int id;
+    public Tarea (String titulo, String descripcion, int id) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.alarmas = new ArrayList<>();
         this.completada = false;
+        this.id = id;
     }
     public void asignarTitulo (String titulo) {
         this.titulo = titulo;
@@ -40,7 +44,7 @@ public class Tarea implements DiaCompleto {
     }
 
     public void ejecutar(LocalDateTime fechaHoraActual) {
-        for (Alarma alarma:alarmas) { alarma.activarAlarma(fechaHoraActual); }
+        for (Alarma alarma:alarmas) { alarma.sonarAlarma(fechaHoraActual, comienza); }
         if (fechaHoraActual.isAfter(finaliza) || fechaHoraActual.equals(finaliza)) { completarTarea(); }
     }
 
@@ -48,8 +52,11 @@ public class Tarea implements DiaCompleto {
         return completada;
     }
 
-    public void asignarAlarma(Alarma alarma, int minutosAntes){
-        alarma.alarmaPersonalizada(comienza, minutosAntes);
+    public void asignarAlarma(Alarma alarma){
         alarmas.add(alarma);
+    }
+
+    public int obtenerId() {
+        return id;
     }
 }

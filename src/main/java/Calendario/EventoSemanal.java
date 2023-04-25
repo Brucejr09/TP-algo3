@@ -1,4 +1,6 @@
 package Calendario;//import java.time.DayOfWeek;
+import Calendario.Alarma.Alarma;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +29,11 @@ public class EventoSemanal extends Evento{
             return eventoRepetido.repetir(nuevaLista, maximo);
         }
         return nuevaLista;
+    }
+
+    @Override
+    public void ejecutar(LocalDateTime fechaHoraActual) {
+
     }
 
     @Override

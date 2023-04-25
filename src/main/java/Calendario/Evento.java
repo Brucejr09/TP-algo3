@@ -1,5 +1,7 @@
 package Calendario;
 
+import Calendario.Alarma.Alarma;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -86,4 +88,14 @@ public abstract class Evento implements DiaCompleto, FechaLimite {
     public boolean estaRealizandose (LocalDateTime fechaActual) {
         return (fechaActual.equals(this.comienza) || fechaActual.isAfter(this.comienza)) && (fechaActual.equals(this.finaliza) || fechaActual.isBefore(this.finaliza));
     }
+
+    public void asignarAlarma(Alarma alarma) {
+        alarmas.add(alarma);
+    }
+
+    public int obtenerId() {
+        return id;
+    }
+
+    public abstract void ejecutar(LocalDateTime fechaHoraActual);
 }

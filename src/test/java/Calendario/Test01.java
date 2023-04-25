@@ -1,5 +1,7 @@
 package Calendario;
 
+import Calendario.Alarma.Alarma;
+import Calendario.Alarma.Relativa;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -69,8 +71,8 @@ public class Test01 {
     @Test
     public void Test06LaAlarmaSeActiva15minAntesDelComienzoDeUnaTarea(){
         Calendario calendario = new Calendario(LocalDateTime.of(2023,7,15,23,30));
-        Tarea tareaACompletar = calendario.crearTarea("Cumpleaños","Cumple de alejandro",LocalDate.of(2023,7,16));
-        Alarma alarmaASonar = calendario.asignarAlarma(15,tareaACompletar);
+        Tarea tareaACompletar = calendario.crearTarea("Hacer Comida","voy a hacer un guiso",LocalDate.of(2023,7,16));
+        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(15),tareaACompletar.obtenerId());
 
         assertFalse(alarmaASonar.estaActivada());
 
@@ -79,4 +81,30 @@ public class Test01 {
         assertTrue(alarmaASonar.estaActivada());
     }
 
+    @Test
+    public void Test07AlarmaSeActiva15minAntesDeUnEventoUnicoDeDiaCompleto(){
+        Calendario calendario = new Calendario(LocalDateTime.of(2023,7,15,23,30));
+        Evento eventoACompletar = calendario.crearEvento("Cumpleaños","Cumple de alejandro", LocalDate.of(2023, 7, 16));
+        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(15), eventoACompletar.obtenerId());
+
+        assertFalse(alarmaASonar.estaActivada());
+
+        calendario.avanzarTiempo();
+
+        assertTrue(alarmaASonar.estaActivada());
+    }
+
+/*
+    public void Test07AlarmaSeActiva15minAntesDeUnEventoSemanalDeDiaCompleto(){
+        Calendario calendario = new Calendario(LocalDateTime.of(2023,7,15,23,30));
+        Evento eventoACompletar = calendario.crearEvento("Laburo","laburo fulltime", LocalDate.of(2023, 7, 16));
+        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(15), eventoACompletar.obtenerId());
+
+        assertFalse(alarmaASonar.estaActivada());
+
+        calendario.avanzarTiempo();
+
+        assertTrue(alarmaASonar.estaActivada());
+    }
+*/
 }
