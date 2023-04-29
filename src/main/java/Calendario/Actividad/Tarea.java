@@ -1,34 +1,23 @@
-package Calendario;
+package Calendario.Actividad;
 
 import Calendario.Alarma.Alarma;
+import Calendario.DiaCompleto;
+import Calendario.Intervalo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
-public class Tarea implements DiaCompleto {
-    private String titulo;
-    private String descripcion;
+public class Tarea extends Actividad implements DiaCompleto {
     private LocalDateTime comienza;
     private LocalDateTime finaliza;
-    private ArrayList<Alarma> alarmas;
     private boolean completada;
-    private int id;
-    public Tarea (String titulo, String descripcion, int id) {
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.alarmas = new ArrayList<>();
+
+    public Tarea (int id, String titulo, String descripcion) {
+        super(id ,titulo, descripcion);
         this.completada = false;
-        this.id = id;
-    }
-    public void asignarTitulo (String titulo) {
-        this.titulo = titulo;
     }
 
-    public void asignarDescripcion (String descripcion) {
-        this.descripcion = descripcion;
-    }
     public void asignarVencimiento(LocalDateTime fechaHoraVencimiento) {
         this.comienza = fechaHoraVencimiento;
         this.finaliza = fechaHoraVencimiento;
@@ -43,8 +32,10 @@ public class Tarea implements DiaCompleto {
         this.completada = true;
     }
 
-    public void ejecutar(LocalDateTime fechaHoraActual) {
-        for (Alarma alarma:alarmas) { alarma.sonarAlarma(fechaHoraActual, comienza); }
+    public void controlar(LocalDateTime fechaHoraActual) {
+        if (this.estaCompletada()){ return; }
+        Intervalo intervalo = new Intervalo(comienza, finaliza);
+        for (Alarma alarma:alarmas) { alarma.sonarAlarma(fechaHoraActual, intervalo); }
         if (fechaHoraActual.isAfter(finaliza) || fechaHoraActual.equals(finaliza)) { completarTarea(); }
     }
 

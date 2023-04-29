@@ -1,9 +1,9 @@
 package Calendario.Alarma;
 
-import Calendario.Alarma.Alarma;
+import Calendario.Intervalo;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class Relativa extends Alarma {
 
@@ -13,9 +13,11 @@ public class Relativa extends Alarma {
     }
 
     @Override
-    public void sonarAlarma(LocalDateTime fechaHoraActual, LocalDateTime fechaHoraActividad) {
-        if (fechaHoraActual.isEqual(fechaHoraActividad.minusMinutes(minutosAntes))){
+    public void sonarAlarma(LocalDateTime fechaHoraActual, Intervalo intervaloActividad) {
+        if (intervaloActividad.cuantoFaltaParaComenzar(fechaHoraActual, ChronoUnit.MINUTES) == minutosAntes){
             alarmaActivada = true;
+        }else{
+            alarmaActivada = false;
         }
     }
 }

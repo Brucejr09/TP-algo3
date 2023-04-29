@@ -1,6 +1,10 @@
 package Calendario;
 
+import Calendario.Actividad.Actividad;
+import Calendario.Actividad.Tarea;
 import Calendario.Alarma.Alarma;
+import Calendario.Actividad.Evento;
+import Calendario.Repeticion.Repeticion;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Calendario {
+    private ArrayList<Actividad> actividades;
     private LocalDateTime fechaHoraActual;
     private Hashtable<Integer, Tarea> tareas;
     private Hashtable<Integer, Evento> eventos;
@@ -17,6 +22,7 @@ public class Calendario {
         this.fechaHoraActual = fechaHoraActual;
         this.eventos = new Hashtable<>();
         this.tareas = new Hashtable<>();
+        this.actividades = new ArrayList<>();
         this.proxId = 0;
 
     }
@@ -31,18 +37,16 @@ public class Calendario {
 
     public void avanzarTiempo() {
         this.fechaHoraActual = fechaHoraActual.plusMinutes(15);
-        for (Tarea tarea:tareas.values()) {
-            tarea.ejecutar(fechaHoraActual);
-        }
-        for (Evento evento: eventos.values()) {
-            evento.ejecutar(fechaHoraActual);
+        for (Actividad actividad : actividades) {
+            actividad.controlar(fechaHoraActual);
         }
     }
 
     public Tarea crearTarea(String nombre, String descripcion,LocalDate fecha) {
-        Tarea nuevaTarea = new Tarea(nombre,descripcion,proxId);
+        Tarea nuevaTarea = new Tarea(proxId, nombre, descripcion);
         nuevaTarea.asignarDiaCompleto(fecha);
-        this.tareas.put(proxId,nuevaTarea);
+        tareas.put(proxId,nuevaTarea);
+        actividades.add(nuevaTarea);
         proxId++;
         return nuevaTarea;
     }
@@ -52,9 +56,10 @@ public class Calendario {
     }
 
     public Tarea crearTarea(String nombre, String descripcion, LocalDateTime fechaLimite) {
-        Tarea nuevaTarea = new Tarea(nombre,descripcion,proxId);
+        Tarea nuevaTarea = new Tarea(proxId, nombre, descripcion);
         nuevaTarea.asignarVencimiento(fechaLimite);
-        this.tareas.put(proxId,nuevaTarea);
+        tareas.put(proxId,nuevaTarea);
+        actividades.add(nuevaTarea);
         proxId++;
         return nuevaTarea;
     }
@@ -69,10 +74,11 @@ public class Calendario {
         return alarma;
     }
 
-    public Evento crearEvento(String titulo, String descripcion, LocalDate fecha) {
-        Evento nuevoEvento = new EventoUnico(titulo,descripcion, proxId);
-        nuevoEvento.asignarDiaCompleto(fecha);
+    public Evento crearEvento(String titulo, String descripcion, Repeticion tipoRepeticion, Intervalo intervalo) {
+        Evento nuevoEvento = new Evento(proxId, titulo, descripcion, tipoRepeticion, intervalo);
         eventos.put(proxId, nuevoEvento);
+        actividades.add(nuevoEvento);
+        proxId++;
         return nuevoEvento;
     }
 }

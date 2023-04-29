@@ -1,8 +1,7 @@
 package Calendario.Alarma;
 
-import Calendario.Alarma.Alarma;
+import Calendario.Intervalo;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Absoluta extends Alarma {
@@ -13,9 +12,11 @@ public class Absoluta extends Alarma {
     }
 
     @Override
-    public void sonarAlarma(LocalDateTime fechaHoraActual, LocalDateTime fechaHoraActividad) {
+    public void sonarAlarma(LocalDateTime fechaHoraActual, Intervalo intervaloActividad) {
         if (fechaHoraActual.isEqual(fechaHoraAlarma)){
             alarmaActivada = true;
+        }else{
+            alarmaActivada = false;
         }
     }
 }
