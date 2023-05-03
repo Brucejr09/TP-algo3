@@ -3,7 +3,10 @@ package Calendario.Actividad;
 import Calendario.Alarma.Alarma;
 import Calendario.Intervalo;
 import Calendario.Repeticion.Repeticion;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Evento extends Actividad{
     private boolean yaTermino;
@@ -34,5 +37,12 @@ public class Evento extends Actividad{
         for (Alarma alarma: alarmas) {
             alarma.sonarAlarma(fechaHoraActual, intervaloSiguienteOcurrencia);
         }
+    }
+
+    @Override
+    public void asignarDiaCompleto(LocalDate dia) {
+        Intervalo nuevoIntervalo = new Intervalo(LocalDateTime.of(dia, LocalTime.MIN), LocalDateTime.of(dia.plusDays(1), LocalTime.MIN));
+        tipoRepeticion.resolverCompatibilidadCon(nuevoIntervalo);
+        this.intervalo = nuevoIntervalo;
     }
 }

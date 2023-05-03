@@ -8,9 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Tarea extends Actividad implements DiaCompleto {
-    private LocalDateTime comienza;
-    private LocalDateTime finaliza;
+public class Tarea extends Actividad {
+    private LocalDateTime fechaDeVencimiento;
     private boolean completada;
 
     public Tarea (int id, String titulo, String descripcion) {
@@ -19,14 +18,12 @@ public class Tarea extends Actividad implements DiaCompleto {
     }
 
     public void asignarVencimiento(LocalDateTime fechaHoraVencimiento) {
-        this.comienza = fechaHoraVencimiento;
-        this.finaliza = fechaHoraVencimiento;
+        this.fechaDeVencimiento = fechaHoraVencimiento;
     }
 
     @Override
     public void asignarDiaCompleto(LocalDate dia) {
-        this.comienza = LocalDateTime.of(dia, LocalTime.MIN);
-        this.finaliza = LocalDateTime.of(dia.plusDays(1), LocalTime.MIN);
+        this.fechaDeVencimiento = LocalDateTime.of(dia.plusDays(1), LocalTime.MIN);
     }
     public void completarTarea() {
         this.completada = true;
@@ -34,9 +31,9 @@ public class Tarea extends Actividad implements DiaCompleto {
 
     public void controlar(LocalDateTime fechaHoraActual) {
         if (this.estaCompletada()){ return; }
-        Intervalo intervalo = new Intervalo(comienza, finaliza);
+        Intervalo intervalo = new Intervalo(fechaDeVencimiento, fechaDeVencimiento);
         for (Alarma alarma:alarmas) { alarma.sonarAlarma(fechaHoraActual, intervalo); }
-        if (fechaHoraActual.isAfter(finaliza) || fechaHoraActual.equals(finaliza)) { completarTarea(); }
+        if (fechaHoraActual.isAfter(fechaDeVencimiento) || fechaHoraActual.equals(fechaDeVencimiento)) { completarTarea(); }
     }
 
     public boolean estaCompletada() {

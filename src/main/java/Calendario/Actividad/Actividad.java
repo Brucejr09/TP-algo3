@@ -1,11 +1,12 @@
 package Calendario.Actividad;
 
 import Calendario.Alarma.Alarma;
+import Calendario.DiaCompleto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public abstract class Actividad {
+public abstract class Actividad implements DiaCompleto {
     protected int id;
     protected String titulo;
     protected String descripcion;

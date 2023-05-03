@@ -1,6 +1,7 @@
 package Calendario.Alarma;
 
 import Calendario.Intervalo;
+import Calendario.Notificable.Notificable;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -8,16 +9,13 @@ import java.time.temporal.ChronoUnit;
 public class Relativa extends Alarma {
 
     private int minutosAntes;
-    public Relativa (int minutos) {
+    public Relativa (Notificable tipoDeAviso, int minutos) {
+        super(tipoDeAviso);
         this.minutosAntes = minutos;
     }
 
     @Override
-    public void sonarAlarma(LocalDateTime fechaHoraActual, Intervalo intervaloActividad) {
-        if (intervaloActividad.cuantoFaltaParaComenzar(fechaHoraActual, ChronoUnit.MINUTES) == minutosAntes){
-            alarmaActivada = true;
-        }else{
-            alarmaActivada = false;
-        }
+    public boolean estaActiva(LocalDateTime fechaHoraActual, Intervalo intervaloActividad) {
+        return intervaloActividad.cuantoFaltaParaComenzar(fechaHoraActual, ChronoUnit.MINUTES) == minutosAntes;
     }
 }

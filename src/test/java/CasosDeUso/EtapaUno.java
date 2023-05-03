@@ -2,6 +2,8 @@ package CasosDeUso;
 
 import Calendario.Alarma.*;
 import Calendario.Actividad.*;
+import Calendario.Notificable.CorreoElectronico;
+import Calendario.Notificable.Notificable;
 import Calendario.Repeticion.*;
 import Calendario.*;
 import org.junit.Test;
@@ -74,12 +76,13 @@ public class EtapaUno {
     }
 
     @Test
-    public void Test06LaAlarmaSeActiva15minAntesDelComienzoDeUnaTarea(){
-        Calendario calendario = new Calendario(LocalDateTime.of(2023,7,15,23,15));
+    public void Test06LaAlarmaSeActiva15minAntesDelVencimientoDeUnaTareaDeDiaCompleto(){
+        Calendario calendario = new Calendario(LocalDateTime.of(2023,7,16,23,15));
         Tarea tareaACompletar = calendario.crearTarea("Hacer Comida","voy a hacer un guiso",LocalDate.of(2023,7,16));
-        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(15),tareaACompletar.obtenerId());
+        Notificable notificable = new CorreoElectronico("algo3@gmail.com");
+        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(notificable,15),tareaACompletar.obtenerId());
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 0);
     }
 
     @Test
@@ -89,9 +92,10 @@ public class EtapaUno {
         Repeticion tipoRepeticion = new Unica();
         Intervalo intervalo = new Intervalo(fechaHoraComienzo);
         Evento eventoACompletar = calendario.crearEvento("Cumpleaños","Cumple de alejandro", tipoRepeticion, intervalo);
-        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(15), eventoACompletar.obtenerId());
+        Notificable notificable = new CorreoElectronico("algo3@gmail.com");
+        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(notificable,15), eventoACompletar.obtenerId());
 
-        this.verificarFuncionamientoCon(calendario, alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 0);
     }
 
     @Test
@@ -103,29 +107,30 @@ public class EtapaUno {
         Repeticion tipoRepeticion = new Diaria(finalRepeticion,1);
         Intervalo intervalo = new Intervalo(fechaHoraComienzo, fechaHoraFin);
         Evento eventoACompletar = calendario.crearEvento("E3","E3 primer dia", tipoRepeticion, intervalo);
-        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(15), eventoACompletar.obtenerId());
+        Notificable notificable = new CorreoElectronico("algo3@gmail.com");
+        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(notificable,15), eventoACompletar.obtenerId());
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 0);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,7,10,11,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 1);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,7,11,11,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 2);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,7,12,11,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 3);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,7,13,11,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 4);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,7,14,11,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 5);
     }
 
     @Test
@@ -140,29 +145,30 @@ public class EtapaUno {
         Repeticion tipoRepeticion = new Semanal(finalRepeticion,seleccionDiasDeSemana);
         Intervalo intervalo = new Intervalo(fechaHoraComienzo, fechaHoraFin);
         Evento eventoACompletar = calendario.crearEvento("Clases","clases de algoritmos", tipoRepeticion, intervalo);
-        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(15), eventoACompletar.obtenerId());
+        Notificable notificable = new CorreoElectronico("algo3@gmail.com");
+        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(notificable,15), eventoACompletar.obtenerId());
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 0);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,3,23,13,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 1);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,3,27,13,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 2);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,7,6,13,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 3);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,7,10,13,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 4);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,7,13,13,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 5);
     }
 
     @Test
@@ -173,29 +179,30 @@ public class EtapaUno {
         Repeticion tipoRepeticion = new Mensual(finalRepeticion,3);
         Intervalo intervalo = new Intervalo(fechaHoraComienzo);
         Evento eventoACompletar = calendario.crearEvento("Cambio de Estacion","en argentina da igual", tipoRepeticion, intervalo);
-        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(15), eventoACompletar.obtenerId());
+        Notificable notificable = new CorreoElectronico("algo3@gmail.com");
+        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(notificable,15), eventoACompletar.obtenerId());
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 0);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,3,20,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 1);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,6,20,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 2);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,9,20,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 3);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2023,12,20,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 4);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2024,3,20,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 5);
     }
 
     @Test
@@ -206,43 +213,44 @@ public class EtapaUno {
         Repeticion tipoRepeticion = new Anual(finalRepeticion,4);
         Intervalo intervalo = new Intervalo(fechaHoraComienzo);
         Evento eventoACompletar = calendario.crearEvento("Cambio de Estacion","en argentina da igual", tipoRepeticion, intervalo);
-        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(15), eventoACompletar.obtenerId());
+        Notificable notificable = new CorreoElectronico("algo3@gmail.com");
+        Alarma alarmaASonar = calendario.asignarAlarma(new Relativa(notificable, 15), eventoACompletar.obtenerId());
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 0);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2028,2,28,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 1);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2032,2,28,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 2);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2052,2,28,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 3);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2092,2,28,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 4);
 
         calendario.setFechaHoraLocal(LocalDateTime.of(2096,2,28,23,15));
 
-        this.verificarFuncionamientoCon(calendario,alarmaASonar);
+        this.verificarFuncionamientoCon(calendario, notificable, 5);
     }
 
-    public void verificarFuncionamientoCon(Calendario calendario, Alarma alarmaASonar){
+    public void verificarFuncionamientoCon(Calendario calendario, Notificable notificable, int cantidadDeNotificacionesActual){
         calendario.avanzarTiempo();
 
-        assertFalse(alarmaASonar.estaActivada());
-
-        calendario.avanzarTiempo();
-
-        assertTrue(alarmaASonar.estaActivada());
+        assertEquals(cantidadDeNotificacionesActual, notificable.obtenerCantidadNotificables());
 
         calendario.avanzarTiempo();
 
-        assertFalse(alarmaASonar.estaActivada());
+        assertEquals(cantidadDeNotificacionesActual + 1, notificable.obtenerCantidadNotificables());
+
+        calendario.avanzarTiempo();
+
+        assertEquals(cantidadDeNotificacionesActual + 1, notificable.obtenerCantidadNotificables());
     }
 
 }
