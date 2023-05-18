@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Evento extends Actividad{
-    private boolean yaTermino;
     private Repeticion tipoRepeticion;
 
     protected Intervalo intervalo;
@@ -19,7 +18,6 @@ public class Evento extends Actividad{
         tipoRepeticion.resolverCompatibilidadCon(intervalo);
         this.tipoRepeticion = tipoRepeticion;
         this.intervalo = intervalo;
-        this.yaTermino = false;
     }
 
     public void asignarAlarma(Alarma alarma) {
@@ -31,9 +29,8 @@ public class Evento extends Actividad{
     }
 
     public void controlar(LocalDateTime fechaHoraActual){
-        if (yaTermino){ return; }
         Intervalo intervaloSiguienteOcurrencia = tipoRepeticion.darSiguienteOcurrencia(fechaHoraActual, intervalo);
-        if (!intervaloSiguienteOcurrencia.comienzaDespues(fechaHoraActual)){ yaTermino = true; }
+        if (!intervaloSiguienteOcurrencia.comienzaDespues(fechaHoraActual)){ return; }
         for (Alarma alarma: alarmas) {
             alarma.sonarAlarma(fechaHoraActual, intervaloSiguienteOcurrencia);
         }

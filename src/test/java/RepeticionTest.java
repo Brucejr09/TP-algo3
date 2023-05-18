@@ -73,7 +73,7 @@ public class RepeticionTest {
 
         assertEquals(siguienteOcurrencia.cuantoFaltaParaComenzar(fechaHoraActual, ChronoUnit.MINUTES),15);
 
-        fechaHoraActual = LocalDateTime.of(2023,7,13,16,00);
+        fechaHoraActual = LocalDateTime.of(2023,7,13,16,0);
         siguienteOcurrencia = tipoRepeticion.darSiguienteOcurrencia(fechaHoraActual,intervalo);
 
         assertEquals(siguienteOcurrencia.cuantoFaltaParaComenzar(fechaHoraActual, ChronoUnit.MINUTES),-(15 * 4 * 2));

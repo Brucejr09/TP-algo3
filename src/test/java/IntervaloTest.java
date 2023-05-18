@@ -1,6 +1,4 @@
 import Calendario.Intervalo;
-import Calendario.Repeticion.Anual;
-import Calendario.Repeticion.Repeticion;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
