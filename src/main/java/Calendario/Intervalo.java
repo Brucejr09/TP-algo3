@@ -1,10 +1,11 @@
 package Calendario;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class Intervalo {
+public class Intervalo implements Serializable {
     private final LocalDateTime comienzo;
     private final LocalDateTime fin;
 

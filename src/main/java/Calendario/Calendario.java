@@ -6,18 +6,22 @@ import Calendario.Alarma.Alarma;
 import Calendario.Actividad.Evento;
 import Calendario.Repeticion.Repeticion;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Hashtable;
 
-public class Calendario {
+public class Calendario implements Serializable{
     private Hashtable<Integer, Actividad> actividades;
     private int proxId;
 
-    public Calendario() {
-        this.actividades = new Hashtable<>();
+    public Calendario(String nombreArchivo) throws IOException, ClassNotFoundException {
+        this.actividades = deSerializar(nombreArchivo);
         this.proxId = 0;
+    }
 
+    public int getProxId() {
+        return this.proxId;
     }
 
     public void controlarActividades(LocalDateTime fechaHoraActual) {
@@ -51,5 +55,29 @@ public class Calendario {
         actividades.put(proxId,nuevoEvento);
         proxId++;
         return nuevoEvento;
+    }
+
+    public void serializar (String nombreArchivo) throws IOException {
+        ObjectOutputStream objetoAGuardar = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(nombreArchivo)));
+        objetoAGuardar.writeObject(actividades);
+        objetoAGuardar.close();
+    }
+
+    private Hashtable<Integer, Actividad> deSerializar (String nombreArchivo) throws IOException, ClassNotFoundException {
+        Hashtable<Integer, Actividad> nuevasActividades;
+
+        try {
+            ObjectInputStream objetoALeer = new ObjectInputStream(new BufferedInputStream(new FileInputStream(nombreArchivo)));
+            nuevasActividades = (Hashtable<Integer, Actividad>) objetoALeer.readObject();
+            objetoALeer.close();
+        }
+        catch (IOException | ClassNotFoundException excepcion){
+            nuevasActividades = new Hashtable<>();
+        }
+        return  nuevasActividades;
+    }
+
+    public Actividad buscarActividad(int index) {
+        return actividades.get(index);
     }
 }

@@ -8,6 +8,7 @@ import Calendario.Repeticion.*;
 import Calendario.*;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,11 +18,12 @@ import static org.junit.Assert.*;
 
 public class EtapaUno {
     private LocalDateTime fechaHoraActual;
+    private final String nombreArchivo = "archivo.dat";
 
     @Test
-    public void Test01TareaDeDiaCompletoSeMarcaComoCompletadaCorrectamente(){
+    public void Test01TareaDeDiaCompletoSeMarcaComoCompletadaCorrectamente() throws IOException, ClassNotFoundException {
         fechaHoraActual = LocalDateTime.of(2000,6,20,23,15);
-        Calendario calendario = new Calendario();
+        Calendario calendario = new Calendario(nombreArchivo);
         Tarea tareaACompletar = calendario.crearTarea("Laburo","laburo todo el dia",LocalDate.of(2000,6,20));
 
         this.avanzarQuinceMinutos(calendario); //aca la hora es 23:30
@@ -38,9 +40,9 @@ public class EtapaUno {
     }
 
     @Test
-    public void Test02TareaConFechaDeVencimientoSeMarcaComoCompletadaCorrectamente(){
+    public void Test02TareaConFechaDeVencimientoSeMarcaComoCompletadaCorrectamente() throws IOException, ClassNotFoundException {
         fechaHoraActual = LocalDateTime.of(2012,12,12,21,0);
-        Calendario calendario = new Calendario();
+        Calendario calendario = new Calendario(nombreArchivo);
         Tarea tareaACompletar = calendario.crearTarea("Limpieza","limpio mi casa",LocalDateTime.of(2012,12,12,21,21));
 
         this.avanzarQuinceMinutos(calendario);
@@ -54,9 +56,9 @@ public class EtapaUno {
     }
 
     @Test
-    public void Test03LaAlarmaSeActiva15minAntesDelVencimientoDeUnaTareaDeDiaCompleto(){
+    public void Test03LaAlarmaSeActiva15minAntesDelVencimientoDeUnaTareaDeDiaCompleto() throws IOException, ClassNotFoundException {
         fechaHoraActual = LocalDateTime.of(2023,7,16,23,15);
-        Calendario calendario = new Calendario();
+        Calendario calendario = new Calendario(nombreArchivo);
         Tarea tareaACompletar = calendario.crearTarea("Hacer Comida","voy a hacer un guiso",LocalDate.of(2023,7,16));
         Notificable notificable = new CorreoElectronico("algo3@gmail.com");
         calendario.asignarAlarma(new Relativa(notificable,15),tareaACompletar.obtenerId());
@@ -65,9 +67,9 @@ public class EtapaUno {
     }
 
     @Test
-    public void Test04AlarmaSeActiva15minAntesDeUnEventoUnico(){
+    public void Test04AlarmaSeActiva15minAntesDeUnEventoUnico() throws IOException, ClassNotFoundException {
         fechaHoraActual = LocalDateTime.of(2023,7,15,23,15);
-        Calendario calendario = new Calendario();
+        Calendario calendario = new Calendario(nombreArchivo);
         LocalDateTime fechaHoraComienzo = LocalDateTime.of(2023,7,16,0,0);
         Repeticion tipoRepeticion = new Unica();
         Intervalo intervalo = new Intervalo(fechaHoraComienzo);
@@ -79,9 +81,9 @@ public class EtapaUno {
     }
 
     @Test
-    public void Test05AlarmaSeActiva15minAntesDeUnEventoDiario(){
+    public void Test05AlarmaSeActiva15minAntesDeUnEventoDiario() throws IOException, ClassNotFoundException {
         fechaHoraActual = LocalDateTime.of(2023,7,9,11,15);
-        Calendario calendario = new Calendario();
+        Calendario calendario = new Calendario(nombreArchivo);
         LocalDateTime fechaHoraComienzo = LocalDateTime.of(2023, 7, 9, 12, 0);
         LocalDateTime fechaHoraFin = LocalDateTime.of(2023, 7, 9, 22, 0);
         LocalDateTime finalRepeticion = LocalDateTime.of(2023, 7, 14, 22, 0);
@@ -115,9 +117,9 @@ public class EtapaUno {
     }
 
     @Test
-    public void Test06AlarmaSeActiva15minAntesDeUnEventoSemanal(){
+    public void Test06AlarmaSeActiva15minAntesDeUnEventoSemanal() throws IOException, ClassNotFoundException {
         fechaHoraActual = LocalDateTime.of(2023,3,23,13,15); //JUEVES
-        Calendario calendario = new Calendario();
+        Calendario calendario = new Calendario(nombreArchivo);
         LocalDateTime fechaHoraComienzo = LocalDateTime.of(2023, 3, 23, 14, 0);
         LocalDateTime fechaHoraFin = LocalDateTime.of(2023, 3, 23, 16, 0);
         LocalDateTime finalRepeticion = LocalDateTime.of(2023, 7, 13, 16, 0); //JUEVES
@@ -154,9 +156,9 @@ public class EtapaUno {
     }
 
     @Test
-    public void Test07AlarmaSeActiva15minAntesDeUnEventoMensual(){
+    public void Test07AlarmaSeActiva15minAntesDeUnEventoMensual() throws IOException, ClassNotFoundException {
         fechaHoraActual = LocalDateTime.of(2023,3,20,23,15);
-        Calendario calendario = new Calendario();
+        Calendario calendario = new Calendario(nombreArchivo);
         LocalDateTime fechaHoraComienzo = LocalDateTime.of(2023, 3, 21, 0, 0);
         LocalDateTime finalRepeticion = LocalDateTime.of(2024, 3, 21, 0, 0);
         Repeticion tipoRepeticion = new Mensual(finalRepeticion,3);
@@ -189,9 +191,9 @@ public class EtapaUno {
     }
 
     @Test
-    public void Test08AlarmaSeActiva15minAntesDeUnEventoAnual(){
+    public void Test08AlarmaSeActiva15minAntesDeUnEventoAnual() throws IOException, ClassNotFoundException {
         fechaHoraActual = LocalDateTime.of(2024,2,28,23,15);
-        Calendario calendario = new Calendario();
+        Calendario calendario = new Calendario(nombreArchivo);
         LocalDateTime fechaHoraComienzo = LocalDateTime.of(2024, 2, 29, 0, 0);
         LocalDateTime finalRepeticion = LocalDateTime.MAX;
         Repeticion tipoRepeticion = new Anual(finalRepeticion,4);

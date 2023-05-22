@@ -3,9 +3,10 @@ package Calendario.Repeticion;
 import Calendario.Intervalo;
 import Calendario.Errores.FinDeRepeticionIncompatible;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public abstract class Repeticion {
+public abstract class Repeticion implements Serializable {
 
     protected LocalDateTime finRepeticion;
     protected int limiteDeOcurrencias;

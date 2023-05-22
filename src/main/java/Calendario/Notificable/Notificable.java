@@ -1,6 +1,8 @@
 package Calendario.Notificable;
 
-public abstract class Notificable {
+import java.io.Serializable;
+
+public abstract class Notificable implements Serializable {
     private int cantidadNotificables;
 
     public Notificable () {
