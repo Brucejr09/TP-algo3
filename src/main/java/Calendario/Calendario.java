@@ -15,13 +15,17 @@ public class Calendario implements Serializable{
     private Hashtable<Integer, Actividad> actividades;
     private int proxId;
 
-    public Calendario(String nombreArchivo) throws IOException, ClassNotFoundException {
-        this.actividades = deSerializar(nombreArchivo);
+    public Calendario() {
+        this.actividades = new Hashtable<>();
         this.proxId = 0;
     }
 
     public int getProxId() {
         return this.proxId;
+    }
+
+    public void setActividades(Hashtable<Integer, Actividad> actividades) {
+        this.actividades = actividades;
     }
 
     public void controlarActividades(LocalDateTime fechaHoraActual) {
@@ -63,11 +67,13 @@ public class Calendario implements Serializable{
         objetoAGuardar.close();
     }
 
-    private Hashtable<Integer, Actividad> deSerializar (String nombreArchivo) throws IOException, ClassNotFoundException {
+    public Hashtable<Integer, Actividad> deSerializar (String nombreArchivo) throws IOException, ClassNotFoundException {
         Hashtable<Integer, Actividad> nuevasActividades;
 
         try {
-            ObjectInputStream objetoALeer = new ObjectInputStream(new BufferedInputStream(new FileInputStream(nombreArchivo)));
+            FileInputStream archivoPreparado = new FileInputStream(nombreArchivo);
+            BufferedInputStream archivoOptimizado = new BufferedInputStream(archivoPreparado);
+            ObjectInputStream objetoALeer = new ObjectInputStream(archivoOptimizado);
             nuevasActividades = (Hashtable<Integer, Actividad>) objetoALeer.readObject();
             objetoALeer.close();
         }
@@ -79,5 +85,9 @@ public class Calendario implements Serializable{
 
     public Actividad buscarActividad(int index) {
         return actividades.get(index);
+    }
+
+    public Hashtable<Integer, Actividad> getActividades() {
+        return this.actividades;
     }
 }

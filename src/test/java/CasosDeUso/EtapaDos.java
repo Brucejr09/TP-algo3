@@ -15,6 +15,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,8 +26,22 @@ public class EtapaDos {
 
     @Test
     public void TestComprueboQueLaSerializacionSeRealizaCorrectamente() throws IOException, ClassNotFoundException {
+        Hashtable<Integer, Actividad> actividadesAnteriores = crearActividadesDeCalendario();
+
+        Calendario calendarioDuplicado = new Calendario();
+        Hashtable<Integer, Actividad> actividadesGuardadas = calendarioDuplicado.deSerializar(nombreArchivo);
+
+        for (int i = 0; i < calendarioDuplicado.getProxId(); i++) {
+            Actividad primeraActividad = actividadesAnteriores.get(i);
+            Actividad primeraActividadDuplicada = calendarioDuplicado.buscarActividad(i);
+
+            assertEquals(primeraActividad, primeraActividadDuplicada);
+        }
+    }
+
+    Hashtable<Integer, Actividad> crearActividadesDeCalendario () throws IOException {
         fechaHoraActual = LocalDateTime.of(2000, 6, 20, 23, 15);
-        Calendario calendario = new Calendario(nombreArchivo);
+        Calendario calendario = new Calendario();
         calendario.crearTarea("Laburo","laburo todo el dia", LocalDate.of(2000,6,20));
 
         calendario.crearTarea("Limpieza","limpio mi casa",LocalDateTime.of(2012,12,12,21,21));
@@ -67,13 +83,6 @@ public class EtapaDos {
 
         calendario.serializar(nombreArchivo);
 
-        Calendario calendarioDuplicado = new Calendario(nombreArchivo);
-
-        for (int i = 0; i < calendario.getProxId(); i++) {
-            Actividad primeraActividad = calendario.buscarActividad(i);
-            Actividad primeraActividadDuplicada = calendarioDuplicado.buscarActividad(i);
-
-            assertEquals(primeraActividad.hashCode(), primeraActividadDuplicada.hashCode());
-        }
+        return calendario.getActividades();
     }
 }

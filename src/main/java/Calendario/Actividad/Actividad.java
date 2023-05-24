@@ -20,11 +20,6 @@ public abstract class Actividad implements DiaCompleto, Serializable {
         this.alarmas = new ArrayList<>();
     }
 
-    @Override
-    public int hashCode() {
-        return this.id + this.titulo.length() + this.descripcion.length();
-    }
-
     public void asignarAlarma(Alarma alarma) {
         alarmas.add(alarma);
     }
