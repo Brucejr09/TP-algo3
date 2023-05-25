@@ -10,6 +10,8 @@ import Calendario.Notificable.Notificable;
 import Calendario.Repeticion.*;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -22,26 +24,13 @@ import static org.junit.Assert.assertEquals;
 
 public class EtapaDos {
     private LocalDateTime fechaHoraActual;
-    private final String nombreArchivo = "archivo.dat";
 
     @Test
     public void TestComprueboQueLaSerializacionSeRealizaCorrectamente() throws IOException, ClassNotFoundException {
-        Hashtable<Integer, Actividad> actividadesAnteriores = crearActividadesDeCalendario();
-
-        Calendario calendarioDuplicado = new Calendario();
-        Hashtable<Integer, Actividad> actividadesGuardadas = calendarioDuplicado.deSerializar(nombreArchivo);
-
-        for (int i = 0; i < calendarioDuplicado.getProxId(); i++) {
-            Actividad primeraActividad = actividadesAnteriores.get(i);
-            Actividad primeraActividadDuplicada = calendarioDuplicado.buscarActividad(i);
-
-            assertEquals(primeraActividad, primeraActividadDuplicada);
-        }
-    }
-
-    Hashtable<Integer, Actividad> crearActividadesDeCalendario () throws IOException {
         fechaHoraActual = LocalDateTime.of(2000, 6, 20, 23, 15);
+
         Calendario calendario = new Calendario();
+
         calendario.crearTarea("Laburo","laburo todo el dia", LocalDate.of(2000,6,20));
 
         calendario.crearTarea("Limpieza","limpio mi casa",LocalDateTime.of(2012,12,12,21,21));
@@ -81,8 +70,18 @@ public class EtapaDos {
         notificable = new CorreoElectronico("algo3@gmail.com");
         calendario.asignarAlarma(new Relativa(notificable, 15), eventoACompletar.obtenerId());
 
-        calendario.serializar(nombreArchivo);
+        ByteArrayOutputStream arrayOriginal = new ByteArrayOutputStream();
+        calendario.serializar(arrayOriginal);
 
-        return calendario.getActividades();
+        Calendario calendarioDuplicado = new Calendario();
+        ByteArrayInputStream arrayDuplicado = new ByteArrayInputStream(arrayOriginal.toByteArray());
+        Hashtable<Integer, Actividad> actividadesGuardadas = calendarioDuplicado.deSerializar(arrayDuplicado);
+
+        for (int i = 0; i < calendarioDuplicado.getProxId(); i++) {
+            Actividad primeraActividad = calendario.buscarActividad(i);
+            Actividad primeraActividadDuplicada = calendarioDuplicado.buscarActividad(i);
+
+            assertEquals(primeraActividad, primeraActividadDuplicada);
+        }
     }
 }

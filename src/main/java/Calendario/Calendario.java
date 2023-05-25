@@ -24,10 +24,6 @@ public class Calendario implements Serializable{
         return this.proxId;
     }
 
-    public void setActividades(Hashtable<Integer, Actividad> actividades) {
-        this.actividades = actividades;
-    }
-
     public void controlarActividades(LocalDateTime fechaHoraActual) {
         for (Actividad actividad : actividades.values()) {
             actividad.controlar(fechaHoraActual);
@@ -61,19 +57,17 @@ public class Calendario implements Serializable{
         return nuevoEvento;
     }
 
-    public void serializar (String nombreArchivo) throws IOException {
-        ObjectOutputStream objetoAGuardar = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(nombreArchivo)));
+    public void serializar (OutputStream archivoASerializar) throws IOException {
+        ObjectOutputStream objetoAGuardar = new ObjectOutputStream(archivoASerializar);
         objetoAGuardar.writeObject(actividades);
         objetoAGuardar.close();
     }
 
-    public Hashtable<Integer, Actividad> deSerializar (String nombreArchivo) throws IOException, ClassNotFoundException {
+    public Hashtable<Integer, Actividad> deSerializar (InputStream archivoADeSerializar) throws IOException, ClassNotFoundException {
         Hashtable<Integer, Actividad> nuevasActividades;
 
         try {
-            FileInputStream archivoPreparado = new FileInputStream(nombreArchivo);
-            BufferedInputStream archivoOptimizado = new BufferedInputStream(archivoPreparado);
-            ObjectInputStream objetoALeer = new ObjectInputStream(archivoOptimizado);
+            ObjectInputStream objetoALeer = new ObjectInputStream(archivoADeSerializar);
             nuevasActividades = (Hashtable<Integer, Actividad>) objetoALeer.readObject();
             objetoALeer.close();
         }
@@ -85,9 +79,5 @@ public class Calendario implements Serializable{
 
     public Actividad buscarActividad(int index) {
         return actividades.get(index);
-    }
-
-    public Hashtable<Integer, Actividad> getActividades() {
-        return this.actividades;
     }
 }
