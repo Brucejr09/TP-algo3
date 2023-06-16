@@ -1,3 +1,4 @@
+import Calendario.Actividad.Actividad;
 import Calendario.Calendario;
 import Calendario.Repeticion.Diaria;
 import Calendario.Repeticion.Repeticion;
@@ -21,6 +22,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class InterfazGrafica extends Application implements Initializable {
@@ -224,6 +226,7 @@ public class InterfazGrafica extends Application implements Initializable {
             public void handle(Event event) {
                 fechaActual = LocalDate.now();
                 fecha.setText(fechaActual.getDayOfMonth() + "-" + fechaActual.getMonth().name() + "-" + fechaActual.getYear());
+                cargarActividades();
             }
         });
 
@@ -249,6 +252,7 @@ public class InterfazGrafica extends Application implements Initializable {
                 if (tabDia.isSelected()) {
                     fechaActual = fechaActual.minusDays(1);
                     fecha.setText(fechaActual.getDayOfMonth() + "-" + fechaActual.getMonth().name() + "-" + fechaActual.getYear());
+                    cargarActividades();
                 }
                 else if (tabSemana.isSelected()) {
                     fechaActual = fechaActual.minusWeeks(1);
@@ -267,6 +271,7 @@ public class InterfazGrafica extends Application implements Initializable {
                 if (tabDia.isSelected()) {
                     fechaActual = fechaActual.plusDays(1);
                     fecha.setText(fechaActual.getDayOfMonth() + "-" + fechaActual.getMonth().name() + "-" + fechaActual.getYear());
+                    cargarActividades();
                 }
                 else if (tabSemana.isSelected()) {
                     fechaActual = fechaActual.plusWeeks(1);
@@ -443,15 +448,14 @@ public class InterfazGrafica extends Application implements Initializable {
     void cargarActividades () {
         dia.getChildren().clear();
 
-        for (int i = 0; i < nuevoCalendario.getProxId(); i++) {
-            VBox nuevo = new VBox();
-            Label titulo = new Label(nuevoCalendario.buscarActividad(i).getTitulo());
-            Label descripcion = new Label(nuevoCalendario.buscarActividad(i).getDescripcion());
+        ArrayList<Actividad> actividadesCalendario = nuevoCalendario.actividadesDelDia(fechaActual);
 
-            if (tabDia.isSelected()) {
-                nuevo.getChildren().add(titulo);
-                nuevo.getChildren().add(descripcion);
-            }
+        for (Actividad actividad : actividadesCalendario) {
+            VBox nuevo = new VBox();
+            Label titulo = new Label(actividad.getTitulo());
+            Label descripcion = new Label(actividad.getDescripcion());
+            nuevo.getChildren().add(titulo);
+            nuevo.getChildren().add(descripcion);
 
             dia.getChildren().add(nuevo);
         }
