@@ -9,6 +9,7 @@ import Calendario.Repeticion.Repeticion;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Calendario implements Serializable{
@@ -18,6 +19,10 @@ public class Calendario implements Serializable{
     public Calendario() {
         this.actividades = new Hashtable<>();
         this.proxId = 0;
+    }
+
+    public void setActividades(Hashtable<Integer, Actividad> actividades) {
+        this.actividades = actividades;
     }
 
     public int getProxId() {
@@ -69,6 +74,8 @@ public class Calendario implements Serializable{
         try {
             ObjectInputStream objetoALeer = new ObjectInputStream(archivoADeSerializar);
             nuevasActividades = (Hashtable<Integer, Actividad>) objetoALeer.readObject();
+            actividades = nuevasActividades;
+            proxId = nuevasActividades.size();
             objetoALeer.close();
         }
         catch (IOException | ClassNotFoundException excepcion){
@@ -79,5 +86,11 @@ public class Calendario implements Serializable{
 
     public Actividad buscarActividad(int index) {
         return actividades.get(index);
+    }
+
+    public ArrayList<Actividad> actividadesDelDia () {
+        for (Actividad actividad : actividades.values()) {
+            actividad.
+        }
     }
 }

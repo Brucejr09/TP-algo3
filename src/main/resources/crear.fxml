@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label prefHeight="40.0" prefWidth="223.0" text="Crear Actividad">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <TextField fx:id="titulo" promptText="Titulo">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Label prefHeight="17.0" prefWidth="274.0" />
+            <TextArea fx:id="descripcion" prefHeight="100.0" prefWidth="607.0" promptText="Descripcion">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextArea>
+         </children>
+      </HBox>
+      <Accordion prefHeight="319.0" prefWidth="1200.0">
+         <panes>
+            <TitledPane animated="false" prefHeight="294.0" prefWidth="1040.0" text="Evento">
+               <content>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Accordion prefHeight="177.0" prefWidth="323.0">
+                           <panes>
+                              <TitledPane fx:id="titledPaneEvento" animated="false" prefHeight="152.0" prefWidth="344.0" text="Fecha">
+                                 <content>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Comienza">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <DatePicker fx:id="fechaComienzo" />
+                                                <Label text="Finaliza">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <DatePicker fx:id="fechaFinaliza" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Hora">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Spinner fx:id="horaComienzo" />
+                                                <Label text="Hora">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Spinner fx:id="horaFinaliza" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Minuto">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Spinner fx:id="minutoComienzo" />
+                                                <Label text="Minuto">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Spinner fx:id="minutoFinaliza" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane fx:id="titledPaneDiaCompletoEvento" animated="false" text="Dia completo">
+                                 <content>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Fecha">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <DatePicker fx:id="fechaDiaCompletoEvento" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </content>
+                              </TitledPane>
+                           </panes>
+                        </Accordion>
+                        <Label prefHeight="17.0" prefWidth="122.0" />
+                        <VBox prefHeight="248.0" prefWidth="172.0">
+                           <children>
+                              <Label text="Repeticion">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <HBox prefHeight="156.0" prefWidth="238.0">
+                                 <children>
+                                    <RadioButton fx:id="unico" mnemonicParsing="false" selected="true" text="Unico">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="repeticion" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <RadioButton fx:id="diario" mnemonicParsing="false" text="Diario" toggleGroup="$repeticion">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <Spinner fx:id="cantidadDias" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Label prefHeight="17.0" prefWidth="122.0" />
+                        <VBox prefHeight="177.0" prefWidth="184.0">
+                           <children>
+                              <Label text="Tipo de Repeticion">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <RadioButton fx:id="repeticionInfinita" mnemonicParsing="false" selected="true" text="Infinita">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="tipo" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <Label>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <RadioButton fx:id="repeticionFecha" mnemonicParsing="false" text="Fecha determinada" toggleGroup="$tipo">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </RadioButton>
+                              <DatePicker fx:id="fechaRepeticion" />
+                              <Label>
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <RadioButton fx:id="repeticionCantidad" mnemonicParsing="false" text="Cantidad" toggleGroup="$tipo">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </RadioButton>
+                              <Spinner fx:id="cantidadRepeticiones" />
+                           </children>
+                        </VBox>
+                        <Label prefHeight="17.0" prefWidth="122.0" />
+                        <Button fx:id="crearEvento" mnemonicParsing="false" text="Crear">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" text="Tarea">
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Accordion prefHeight="163.0" prefWidth="324.0">
+                           <panes>
+                              <TitledPane fx:id="titledPaneTarea" animated="false" text="Fecha de vencimiento">
+                                 <content>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Fecha">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <DatePicker fx:id="fechaVencimiento" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Hora">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Spinner fx:id="horaVencimiento" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label text="Minuto">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Spinner fx:id="minutoVencimiento" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane fx:id="titledPaneDiaCompletoTarea" animated="false" text="Dia completo">
+                                 <content>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Label text="Fecha">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <DatePicker fx:id="fechaDiaCompletoTarea" />
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </TitledPane>
+                           </panes>
+                        </Accordion>
+                        <Label prefHeight="17.0" prefWidth="122.0" />
+                        <Button fx:id="crearTarea" mnemonicParsing="false" text="Crear">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+         </panes>
+      </Accordion>
+   </children>
+</VBox>

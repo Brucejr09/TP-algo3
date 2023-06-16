@@ -4,6 +4,7 @@ import Calendario.Alarma.Alarma;
 import Calendario.DiaCompleto;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -20,6 +21,14 @@ public abstract class Actividad implements DiaCompleto, Serializable {
         this.alarmas = new ArrayList<>();
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
     public void asignarAlarma(Alarma alarma) {
         alarmas.add(alarma);
     }
@@ -29,4 +38,6 @@ public abstract class Actividad implements DiaCompleto, Serializable {
     }
 
     public abstract void controlar(LocalDateTime fechaHoraActual);
+
+    public abstract boolean soyDelDia (LocalDate dia);
 }

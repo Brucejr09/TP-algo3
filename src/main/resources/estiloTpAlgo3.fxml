@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308">
+         <effect>
+            <ColorAdjust />
+         </effect>
+      </HBox>
+      <HBox alignment="CENTER" spacing="5.0">
+         <children>
+            <Label prefHeight="43.0" prefWidth="139.0" text="Calendario">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Button fx:id="crear" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="29.0" prefWidth="40.0" text="+">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Label prefHeight="44.0" prefWidth="620.0" />
+            <Label fx:id="hora" alignment="CENTER" contentDisplay="TOP" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="125.0" text="&quot;Hora&quot;" textAlignment="CENTER">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Button fx:id="anterior" mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="&lt;" />
+            <Label fx:id="fecha" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="269.0" text="&quot;Detalle del dia actual&quot;">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Button fx:id="siguiente" mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="&gt;" />
+         </children>
+      </HBox>
+      <TabPane fx:id="vistaCalendario" prefHeight="659.0" prefWidth="1260.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tabDia" text="Dia">
+               <content>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <VBox fx:id="dia" prefHeight="738.0" prefWidth="1246.0" />
+                     </content>
+                  </ScrollPane>
+               </content>
+          </Tab>
+          <Tab fx:id="tabSemana" text="Semana">
+               <content>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <HBox prefHeight="661.0" prefWidth="1245.0">
+                           <children>
+                              <VBox fx:id="semDomingo" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Domingo">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="semLunes" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Lunes">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="semMartes" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Martes">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="semMiercoles" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Miercoles">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="semJueves" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Jueves">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="semViernes" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Viernes">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="semDomingo" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Sabado">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+          </Tab>
+            <Tab fx:id="tabMes" text="Mes">
+               <content>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <HBox prefHeight="689.0" prefWidth="1246.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label fx:id="mesDomingo" alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Domingo">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="mesLunes" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Lunes">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="mesMartes" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Martes">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="mesMiercoles" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Miercoles">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="mesJueves" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Jueves">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="mesViernes" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Viernes">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="mesSabado" prefHeight="200.0" prefWidth="178.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Sabado">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</VBox>

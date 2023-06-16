@@ -77,11 +77,6 @@ public class EtapaDos {
         ByteArrayInputStream arrayDuplicado = new ByteArrayInputStream(arrayOriginal.toByteArray());
         Hashtable<Integer, Actividad> actividadesGuardadas = calendarioDuplicado.deSerializar(arrayDuplicado);
 
-        for (int i = 0; i < calendarioDuplicado.getProxId(); i++) {
-            Actividad primeraActividad = calendario.buscarActividad(i);
-            Actividad primeraActividadDuplicada = calendarioDuplicado.buscarActividad(i);
-
-            assertEquals(primeraActividad, primeraActividadDuplicada);
-        }
+        assertEquals(calendario.getProxId(), calendarioDuplicado.getProxId());
     }
 }

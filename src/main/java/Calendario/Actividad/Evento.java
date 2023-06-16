@@ -37,6 +37,11 @@ public class Evento extends Actividad{
     }
 
     @Override
+    public boolean soyDelDia(LocalDate dia) {
+        return ;
+    }
+
+    @Override
     public void asignarDiaCompleto(LocalDate dia) {
         Intervalo nuevoIntervalo = new Intervalo(LocalDateTime.of(dia, LocalTime.MIN), LocalDateTime.of(dia.plusDays(1), LocalTime.MIN));
         tipoRepeticion.resolverCompatibilidadCon(nuevoIntervalo);
