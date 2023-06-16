@@ -197,22 +197,6 @@ public class InterfazGrafica extends Application implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
-    @Override
-    public void start(Stage escenario) throws Exception {
-
-
-
-
-        FXMLLoader cargadorInterfaz = new FXMLLoader(getClass().getResource("estiloTpAlgo3.fxml"));
-        cargadorInterfaz.setController(this);
-        VBox interfaz = cargadorInterfaz.load();
-
-        Scene escena = new Scene(interfaz);
-
-
         nuevoCalendario = new Calendario();
 
         try {
@@ -227,7 +211,15 @@ public class InterfazGrafica extends Application implements Initializable {
 
         if (nuevoCalendario.getProxId() > 0)
             cargarActividades();
+    }
 
+    @Override
+    public void start(Stage escenario) throws Exception {
+        FXMLLoader cargadorInterfaz = new FXMLLoader(getClass().getResource("estiloTpAlgo3.fxml"));
+        cargadorInterfaz.setController(this);
+        VBox interfaz = cargadorInterfaz.load();
+
+        Scene escena = new Scene(interfaz);
 
         tabDia.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
@@ -344,24 +336,13 @@ public class InterfazGrafica extends Application implements Initializable {
         minutoVencimiento.setValueFactory(FABRICAMINUTOVENCIMIENTO);
 
         fechaComienzo.setValue(fechaActual);
-        fechaFinaliza.setValue(fechaActual);
+        fechaFinaliza.setValue(fechaActual.plusDays(1));
         fechaDiaCompletoEvento.setValue(fechaActual);
 
         fechaVencimiento.setValue(fechaActual.plusDays(1));
         fechaDiaCompletoTarea.setValue(fechaActual);
 
         fechaRepeticion.setValue(fechaActual.plusDays(1));
-
-        cantidadDias.getValueFactory().setValue(1);
-        cantidadRepeticiones.getValueFactory().setValue(1);
-
-        horaComienzo.getValueFactory().setValue(0);
-        horaFinaliza.getValueFactory().setValue(2);
-        horaVencimiento.getValueFactory().setValue(0);
-
-        minutoComienzo.getValueFactory().setValue(0);
-        minutoFinaliza.getValueFactory().setValue(0);
-        minutoVencimiento.getValueFactory().setValue(0);
 
         repeticionInfinita.setSelected(true);
         unico.setSelected(true);
@@ -409,15 +390,6 @@ public class InterfazGrafica extends Application implements Initializable {
 
                 cargarActividades();
 
-                escenario.setTitle("Calendario");
-                escenario.setScene(escena);
-                escenario.show();
-            }
-        });
-
-        crearTarea.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
                 cantidadDias.getValueFactory().setValue(1);
                 cantidadRepeticiones.getValueFactory().setValue(1);
 
@@ -429,6 +401,15 @@ public class InterfazGrafica extends Application implements Initializable {
                 minutoFinaliza.getValueFactory().setValue(0);
                 minutoVencimiento.getValueFactory().setValue(0);
 
+                escenario.setTitle("Calendario");
+                escenario.setScene(escena);
+                escenario.show();
+            }
+        });
+
+        crearTarea.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
                 if (titulo.getText().isEmpty())
                     titulo.setText("sin titulo");
 
@@ -449,6 +430,17 @@ public class InterfazGrafica extends Application implements Initializable {
                 }
 
                 cargarActividades();
+
+                cantidadDias.getValueFactory().setValue(1);
+                cantidadRepeticiones.getValueFactory().setValue(1);
+
+                horaComienzo.getValueFactory().setValue(0);
+                horaFinaliza.getValueFactory().setValue(0);
+                horaVencimiento.getValueFactory().setValue(0);
+
+                minutoComienzo.getValueFactory().setValue(0);
+                minutoFinaliza.getValueFactory().setValue(0);
+                minutoVencimiento.getValueFactory().setValue(0);
 
                 escenario.setTitle("Calendario");
                 escenario.setScene(escena);
