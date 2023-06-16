@@ -2,6 +2,7 @@ package Calendario;
 
 import java.io.Serializable;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -43,5 +44,9 @@ public class Intervalo implements Serializable {
 
     public Intervalo sumarAnios(int cantAnios) {
         return new Intervalo(comienzo.plusYears(cantAnios), fin.plusYears(cantAnios));
+    }
+
+    public boolean comienzaHoy(LocalDate dia) {
+        return comienzo.toLocalDate().isEqual(dia);
     }
 }

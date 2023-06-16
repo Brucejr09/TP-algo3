@@ -1,9 +1,7 @@
 package Calendario.Actividad;
 
 import Calendario.Alarma.Alarma;
-import Calendario.DiaCompleto;
 import Calendario.Intervalo;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -36,6 +34,11 @@ public class Tarea extends Actividad {
         if (fechaHoraActual.isAfter(fechaDeVencimiento) || fechaHoraActual.equals(fechaDeVencimiento)) { completarTarea(); }
     }
 
+    @Override
+    public boolean soyDelDia(LocalDate dia) {
+        return fechaDeVencimiento.toLocalDate().isEqual(dia);
+    }
+
     public boolean estaCompletada() {
         return completada;
     }
@@ -47,4 +50,5 @@ public class Tarea extends Actividad {
     public int obtenerId() {
         return id;
     }
+
 }

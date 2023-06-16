@@ -38,7 +38,8 @@ public class Evento extends Actividad{
 
     @Override
     public boolean soyDelDia(LocalDate dia) {
-        return ;
+        Intervalo intervaloSiguienteOcurrencia = tipoRepeticion.darSiguienteOcurrencia(LocalDateTime.of(dia, LocalTime.MIN), intervalo);
+        return intervaloSiguienteOcurrencia.comienzaHoy(dia) ;
     }
 
     @Override

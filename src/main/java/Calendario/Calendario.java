@@ -88,9 +88,13 @@ public class Calendario implements Serializable{
         return actividades.get(index);
     }
 
-    public ArrayList<Actividad> actividadesDelDia () {
+    public ArrayList<Actividad> actividadesDelDia (LocalDate dia) {
+        ArrayList<Actividad> actividadesDelDia = new ArrayList<>();
         for (Actividad actividad : actividades.values()) {
-            actividad.
+            if (actividad.soyDelDia(dia)){
+                actividadesDelDia.add(actividad);
+            }
         }
+        return actividadesDelDia;
     }
 }
