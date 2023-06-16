@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Mensual extends Repeticion {
-    private int frecuencia;
+    private final int frecuencia;
 
     public Mensual(LocalDateTime finalRepeticion, int frecuencia) {
         super(finalRepeticion);
@@ -21,12 +21,14 @@ public class Mensual extends Repeticion {
     @Override
     public Intervalo darSiguienteOcurrencia(LocalDateTime fechaHoraActual, Intervalo intervalo) {
         int numeroDeOcurrencia = this.calcularOcurrencia(fechaHoraActual, intervalo);
-        if ( (numeroDeOcurrencia == 0) && (intervalo.comienzaAhoraODespues(fechaHoraActual)) ){ return intervalo; }
         if (numeroDeOcurrencia>=limiteDeOcurrencias){ return intervalo.sumarMeses(limiteDeOcurrencias * frecuencia);}
 
-        int mesesTotales = numeroDeOcurrencia * frecuencia + frecuencia;
+        Intervalo intervaloSiguienteOcurrencia = intervalo.sumarMeses(numeroDeOcurrencia * frecuencia);
 
-        return intervalo.sumarMeses(mesesTotales);
+        if (!intervaloSiguienteOcurrencia.comienzaAhoraODespues(fechaHoraActual))
+            intervaloSiguienteOcurrencia = intervaloSiguienteOcurrencia.sumarMeses(frecuencia);
+
+        return intervaloSiguienteOcurrencia;
     }
 
     @Override

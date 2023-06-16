@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Diaria extends Repeticion{
-    private int frecuencia;
+    private final int frecuencia;
 
     public Diaria(LocalDateTime finalRepeticion, int frecuencia) {
         super(finalRepeticion);
@@ -21,12 +21,14 @@ public class Diaria extends Repeticion{
     @Override
     public Intervalo darSiguienteOcurrencia(LocalDateTime fechaHoraActual, Intervalo intervalo) {
         int numeroDeOcurrencia = this.calcularOcurrencia(fechaHoraActual, intervalo);
-        if ( (numeroDeOcurrencia == 0) && (intervalo.comienzaAhoraODespues(fechaHoraActual)) ){ return intervalo; }
         if (numeroDeOcurrencia>=limiteDeOcurrencias){ return intervalo.sumarDias(limiteDeOcurrencias * frecuencia);}
 
-        int diasTotales = numeroDeOcurrencia * frecuencia + frecuencia;
+        Intervalo intervaloSiguienteOcurrencia = intervalo.sumarDias(numeroDeOcurrencia * frecuencia);
 
-        return intervalo.sumarDias(diasTotales);
+        if (!intervaloSiguienteOcurrencia.comienzaAhoraODespues(fechaHoraActual))
+             intervaloSiguienteOcurrencia = intervaloSiguienteOcurrencia.sumarDias(frecuencia);
+
+        return intervaloSiguienteOcurrencia;
     }
 
     protected int calcularOcurrencia(LocalDateTime fechaHora, Intervalo intervalo){

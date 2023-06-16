@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Anual extends Repeticion {
-    private int frecuencia;
+    private final int frecuencia;
 
     public Anual(LocalDateTime finalRepeticion, int frecuencia) {
         super(finalRepeticion);
@@ -24,9 +24,12 @@ public class Anual extends Repeticion {
         if ( (numeroDeOcurrencia == 0) && (intervalo.comienzaAhoraODespues(fechaHoraActual)) ){ return intervalo; }
         if (numeroDeOcurrencia>=limiteDeOcurrencias){ return intervalo.sumarAnios(limiteDeOcurrencias * frecuencia);}
 
-        int aniosTotales = numeroDeOcurrencia * frecuencia + frecuencia;
+        Intervalo intervaloSiguienteOcurrencia = intervalo.sumarAnios(numeroDeOcurrencia * frecuencia);
 
-        return intervalo.sumarAnios(aniosTotales);
+        if (!intervaloSiguienteOcurrencia.comienzaAhoraODespues(fechaHoraActual))
+            intervaloSiguienteOcurrencia = intervaloSiguienteOcurrencia.sumarAnios(frecuencia);
+
+        return intervaloSiguienteOcurrencia;
     }
 
     @Override
