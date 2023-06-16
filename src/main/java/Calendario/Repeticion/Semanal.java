@@ -32,7 +32,7 @@ public class Semanal extends Repeticion {
         for (int i = 0; i < 8; i++) {
             if ( seleccionDiasDeSemana.contains(nuevoIntervalo.diaDeSemana()) ){
                 if (ocurrencia>=limiteDeOcurrencias){ return nuevoIntervalo; }
-                if (nuevoIntervalo.comienzaDespues(fechaHoraActual)){
+                if (nuevoIntervalo.comienzaAhoraODespues(fechaHoraActual)){
                     return nuevoIntervalo;
                 }else{
                     ocurrencia++;
@@ -52,7 +52,7 @@ public class Semanal extends Repeticion {
 
         for (int i = 0; i < 7; i++) {
             nuevoIntervalo = nuevoIntervalo.sumarDias(1);
-            if ( (seleccionDiasDeSemana.contains(nuevoIntervalo.diaDeSemana())) && (!nuevoIntervalo.comienzaDespues(fechaHora)) ){ocurrencia++;}
+            if ( (seleccionDiasDeSemana.contains(nuevoIntervalo.diaDeSemana())) && (!nuevoIntervalo.comienzaAhoraODespues(fechaHora)) ){ocurrencia++;}
         }
 
         return ocurrencia;

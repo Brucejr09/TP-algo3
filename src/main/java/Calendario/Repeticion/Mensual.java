@@ -21,7 +21,7 @@ public class Mensual extends Repeticion {
     @Override
     public Intervalo darSiguienteOcurrencia(LocalDateTime fechaHoraActual, Intervalo intervalo) {
         int numeroDeOcurrencia = this.calcularOcurrencia(fechaHoraActual, intervalo);
-        if ( (numeroDeOcurrencia == 0) && (intervalo.comienzaDespues(fechaHoraActual)) ){ return intervalo; }
+        if ( (numeroDeOcurrencia == 0) && (intervalo.comienzaAhoraODespues(fechaHoraActual)) ){ return intervalo; }
         if (numeroDeOcurrencia>=limiteDeOcurrencias){ return intervalo.sumarMeses(limiteDeOcurrencias * frecuencia);}
 
         int mesesTotales = numeroDeOcurrencia * frecuencia + frecuencia;

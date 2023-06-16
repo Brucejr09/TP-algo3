@@ -30,7 +30,7 @@ public class Evento extends Actividad{
 
     public void controlar(LocalDateTime fechaHoraActual){
         Intervalo intervaloSiguienteOcurrencia = tipoRepeticion.darSiguienteOcurrencia(fechaHoraActual, intervalo);
-        if (!intervaloSiguienteOcurrencia.comienzaDespues(fechaHoraActual)){ return; }
+        if (!intervaloSiguienteOcurrencia.comienzaAhoraODespues(fechaHoraActual)){ return; }
         for (Alarma alarma: alarmas) {
             alarma.sonarAlarma(fechaHoraActual, intervaloSiguienteOcurrencia);
         }

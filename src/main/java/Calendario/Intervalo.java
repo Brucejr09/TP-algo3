@@ -20,8 +20,8 @@ public class Intervalo implements Serializable {
         this.fin = finaliza;
     }
 
-    public boolean comienzaDespues(LocalDateTime fechaHora){
-        return comienzo.isAfter(fechaHora);
+    public boolean comienzaAhoraODespues(LocalDateTime fechaHora){
+        return comienzo.isAfter(fechaHora) || comienzo.isEqual(fechaHora);
     }
 
     public long cuantoFaltaParaComenzar(LocalDateTime fechaHoraActual, ChronoUnit unidad) {

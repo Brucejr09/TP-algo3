@@ -13,9 +13,9 @@ public class IntervaloTest {
         LocalDateTime fechaHoraFin = LocalDateTime.of(2024, 4, 28, 6, 0);
         Intervalo intervalo = new Intervalo(fechaHoraComienzo, fechaHoraFin);
 
-        assertTrue( intervalo.comienzaDespues(LocalDateTime.of(2024,4,28,1,45)));
-        assertFalse( intervalo.comienzaDespues(LocalDateTime.of(2024,4,28,2,0)));
-        assertFalse( intervalo.comienzaDespues(LocalDateTime.of(2024,4,28,2,15)));
+        assertTrue( intervalo.comienzaAhoraODespues(LocalDateTime.of(2024,4,28,1,45)));
+        assertTrue( intervalo.comienzaAhoraODespues(LocalDateTime.of(2024,4,28,2,0)));
+        assertFalse( intervalo.comienzaAhoraODespues(LocalDateTime.of(2024,4,28,2,15)));
     }
 
     @Test

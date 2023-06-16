@@ -22,7 +22,7 @@ public abstract class Repeticion implements Serializable {
 
     public void resolverCompatibilidadCon(Intervalo intervalo) {
         if (limiteDeOcurrencias == 0){
-            if (intervalo.comienzaDespues(this.finRepeticion)){
+            if (intervalo.comienzaAhoraODespues(this.finRepeticion)){
                 throw new FinDeRepeticionIncompatible();
             }
             this.limiteDeOcurrencias = this.calcularOcurrencia(finRepeticion, intervalo);
