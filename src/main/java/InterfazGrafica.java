@@ -4,6 +4,7 @@ import Calendario.Repeticion.Diaria;
 import Calendario.Repeticion.Repeticion;
 import Calendario.Repeticion.Unica;
 import Calendario.Intervalo;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -31,7 +32,7 @@ public class InterfazGrafica extends Application implements Initializable {
     private LocalDate fechaActual;
 
     private static final SpinnerValueFactory<Integer> FABRICACANTIDADDIAS = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 365, 1);
-    private static final SpinnerValueFactory<Integer> FABRICACANTIDADREPETICIONES = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 365, 1);
+    private static final SpinnerValueFactory<Integer> FABRICACANTIDADREPETICIONES = new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 365, 2);
 
     private static final SpinnerValueFactory<Integer> FABRICAHORACOMIENZO = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
     private static final SpinnerValueFactory<Integer> FABRICAHORAFINALIZA = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
@@ -41,6 +42,13 @@ public class InterfazGrafica extends Application implements Initializable {
     private static final SpinnerValueFactory<Integer> FABRICAMINUTOFINALIZA = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
     private static final SpinnerValueFactory<Integer> FABRICAMINUTOVENCIMIENTO = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
 
+    private static final String DOMINGO = "Domingo";
+    private static final String LUNES = "Lunes";
+    private static final String MARTES = "Martes";
+    private static final String MIERCOLES = "Miercoles";
+    private static final String JUEVES = "Jueves";
+    private static final String VIERNES = "Viernes";
+    private static final String SABADO = "Sabado";
 
     @FXML
     private Button anterior;
@@ -92,6 +100,9 @@ public class InterfazGrafica extends Application implements Initializable {
 
     @FXML
     private VBox semMiercoles;
+
+    @FXML
+    private VBox semSabado;
 
     @FXML
     private VBox semViernes;
@@ -207,6 +218,7 @@ public class InterfazGrafica extends Application implements Initializable {
         VBox interfaz = cargadorInterfaz.load();
 
         Scene escena = new Scene(interfaz);
+        System.out.println("pasa por aca");
 
         nuevoCalendario = new Calendario();
 
@@ -221,14 +233,14 @@ public class InterfazGrafica extends Application implements Initializable {
         fecha.setText(LocalDate.now().getDayOfMonth() + "-" + LocalDate.now().getMonth().name() + "-" + LocalDate.now().getYear());
 
         if (nuevoCalendario.getProxId() > 0)
-            cargarActividades();
+            cargarActividades(dia, fechaActual);
 
         tabDia.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
                 fechaActual = LocalDate.now();
                 fecha.setText(fechaActual.getDayOfMonth() + "-" + fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                cargarActividades();
+                cargarActividades(dia, fechaActual);
             }
         });
 
@@ -237,6 +249,7 @@ public class InterfazGrafica extends Application implements Initializable {
             public void handle(Event event) {
                 fechaActual = LocalDate.now();
                 fecha.setText(fechaActual.getMonth().name() + "-" + fechaActual.getYear());
+                cargarSemana();
             }
         });
 
@@ -254,11 +267,12 @@ public class InterfazGrafica extends Application implements Initializable {
                 if (tabDia.isSelected()) {
                     fechaActual = fechaActual.minusDays(1);
                     fecha.setText(fechaActual.getDayOfMonth() + "-" + fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                    cargarActividades();
+                    cargarActividades(dia, fechaActual);
                 }
                 else if (tabSemana.isSelected()) {
                     fechaActual = fechaActual.minusWeeks(1);
                     fecha.setText(fechaActual.getMonth().name() + "-" + fechaActual.getYear());
+                    cargarSemana();
                 }
                 else {
                     fechaActual = fechaActual.minusMonths(1);
@@ -273,11 +287,12 @@ public class InterfazGrafica extends Application implements Initializable {
                 if (tabDia.isSelected()) {
                     fechaActual = fechaActual.plusDays(1);
                     fecha.setText(fechaActual.getDayOfMonth() + "-" + fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                    cargarActividades();
+                    cargarActividades(dia, fechaActual);
                 }
                 else if (tabSemana.isSelected()) {
                     fechaActual = fechaActual.plusWeeks(1);
                     fecha.setText(fechaActual.getMonth().name() + "-" + fechaActual.getYear());
+                    cargarSemana();
                 }
                 else {
                     fechaActual = fechaActual.plusMonths(1);
@@ -340,7 +355,7 @@ public class InterfazGrafica extends Application implements Initializable {
 
 
         cantidadDias.getValueFactory().setValue(1);
-        cantidadRepeticiones.getValueFactory().setValue(1);
+        cantidadRepeticiones.getValueFactory().setValue(2);
 
         horaComienzo.getValueFactory().setValue(0);
         horaFinaliza.getValueFactory().setValue(0);
@@ -353,7 +368,7 @@ public class InterfazGrafica extends Application implements Initializable {
 
 
         fechaComienzo.setValue(fechaActual);
-        fechaFinaliza.setValue(fechaActual);
+        fechaFinaliza.setValue(fechaActual.plusDays(1));
         fechaDiaCompletoEvento.setValue(fechaActual);
 
         fechaVencimiento.setValue(fechaActual.plusDays(1));
@@ -402,7 +417,12 @@ public class InterfazGrafica extends Application implements Initializable {
                 
                 nuevoCalendario.crearEvento(titulo.getText(), descripcion.getText(), repeticion, intervalo);
 
-                cargarActividades();
+                if (tabDia.isSelected()) {
+                    cargarActividades(dia, fechaActual);
+                }
+                else if (tabSemana.isSelected()) {
+                    cargarSemana();
+                }
 
                 escenario.setTitle("Calendario");
                 escenario.setScene(escena);
@@ -432,7 +452,12 @@ public class InterfazGrafica extends Application implements Initializable {
                     nuevoCalendario.crearTarea(titulo.getText(), descripcion.getText(), fechaDiaCompletoTarea.getValue());
                 }
 
-                cargarActividades();
+                if (tabDia.isSelected()) {
+                    cargarActividades(dia, fechaActual);
+                }
+                else if (tabSemana.isSelected()) {
+                    cargarSemana();
+                }
 
                 escenario.setTitle("Calendario");
                 escenario.setScene(escena);
@@ -445,10 +470,10 @@ public class InterfazGrafica extends Application implements Initializable {
         nuevoEscenario.show();
     }
 
-    void cargarActividades () {
-        dia.getChildren().clear();
+    void cargarActividades (VBox columna, LocalDate fecha) {
+        columna.getChildren().clear();
 
-        ArrayList<Actividad> actividadesCalendario = nuevoCalendario.actividadesDelDia(fechaActual);
+        ArrayList<Actividad> actividadesCalendario = nuevoCalendario.actividadesDelDia(fecha);
 
         for (Actividad actividad : actividadesCalendario) {
             VBox nuevo = new VBox();
@@ -457,7 +482,94 @@ public class InterfazGrafica extends Application implements Initializable {
             nuevo.getChildren().add(titulo);
             nuevo.getChildren().add(descripcion);
 
-            dia.getChildren().add(nuevo);
+            columna.getChildren().add(nuevo);
+        }
+    }
+
+    void cargarActividades (VBox columna, LocalDate fecha, String dia) {
+        columna.getChildren().clear();
+
+        Label diaConFecha = new Label(dia + " " + fecha.getDayOfMonth());
+        columna.getChildren().add(diaConFecha);
+
+        ArrayList<Actividad> actividadesCalendario = nuevoCalendario.actividadesDelDia(fecha);
+
+        for (Actividad actividad : actividadesCalendario) {
+            VBox nuevo = new VBox();
+            Label titulo = new Label(actividad.getTitulo());
+            Label descripcion = new Label(actividad.getDescripcion());
+            nuevo.getChildren().add(titulo);
+            nuevo.getChildren().add(descripcion);
+
+            columna.getChildren().add(nuevo);
+        }
+    }
+
+    private void cargarSemana () {
+        switch (fechaActual.getDayOfWeek()) {
+            case SUNDAY -> {
+                cargarActividades(semDomingo, fechaActual, DOMINGO);
+                cargarActividades(semLunes, fechaActual.plusDays(1), LUNES);
+                cargarActividades(semMartes, fechaActual.plusDays(2), MARTES);
+                cargarActividades(semMiercoles, fechaActual.plusDays(3), MIERCOLES);
+                cargarActividades(semJueves, fechaActual.plusDays(4), JUEVES);
+                cargarActividades(semViernes, fechaActual.plusDays(5), VIERNES);
+                cargarActividades(semSabado, fechaActual.plusDays(6), SABADO);
+            }
+            case MONDAY -> {
+                cargarActividades(semDomingo, fechaActual.minusDays(1), DOMINGO);
+                cargarActividades(semLunes, fechaActual, LUNES);
+                cargarActividades(semMartes, fechaActual.plusDays(1), MARTES);
+                cargarActividades(semMiercoles, fechaActual.plusDays(2), MIERCOLES);
+                cargarActividades(semJueves, fechaActual.plusDays(3), JUEVES);
+                cargarActividades(semViernes, fechaActual.plusDays(4), VIERNES);
+                cargarActividades(semSabado, fechaActual.plusDays(5), SABADO);
+            }
+            case TUESDAY -> {
+                cargarActividades(semDomingo, fechaActual.minusDays(2), DOMINGO);
+                cargarActividades(semLunes, fechaActual.minusDays(1), LUNES);
+                cargarActividades(semMartes, fechaActual, MARTES);
+                cargarActividades(semMiercoles, fechaActual.plusDays(1), MIERCOLES);
+                cargarActividades(semJueves, fechaActual.plusDays(2), JUEVES);
+                cargarActividades(semViernes, fechaActual.plusDays(3), VIERNES);
+                cargarActividades(semSabado, fechaActual.plusDays(4), SABADO);
+            }
+            case WEDNESDAY -> {
+                cargarActividades(semDomingo, fechaActual.minusDays(3), DOMINGO);
+                cargarActividades(semLunes, fechaActual.minusDays(2), LUNES);
+                cargarActividades(semMartes, fechaActual.minusDays(1), MARTES);
+                cargarActividades(semMiercoles, fechaActual, MIERCOLES);
+                cargarActividades(semJueves, fechaActual.plusDays(1), JUEVES);
+                cargarActividades(semViernes, fechaActual.plusDays(2), VIERNES);
+                cargarActividades(semSabado, fechaActual.plusDays(3), SABADO);
+            }
+            case THURSDAY -> {
+                cargarActividades(semDomingo, fechaActual.minusDays(4), DOMINGO);
+                cargarActividades(semLunes, fechaActual.minusDays(3), LUNES);
+                cargarActividades(semMartes, fechaActual.minusDays(2), MARTES);
+                cargarActividades(semMiercoles, fechaActual.minusDays(1), MIERCOLES);
+                cargarActividades(semJueves, fechaActual, JUEVES);
+                cargarActividades(semViernes, fechaActual.plusDays(1), VIERNES);
+                cargarActividades(semSabado, fechaActual.plusDays(2), SABADO);
+            }
+            case FRIDAY -> {
+                cargarActividades(semDomingo, fechaActual.minusDays(5), DOMINGO);
+                cargarActividades(semLunes, fechaActual.minusDays(4), LUNES);
+                cargarActividades(semMartes, fechaActual.minusDays(3), MARTES);
+                cargarActividades(semMiercoles, fechaActual.minusDays(2), MIERCOLES);
+                cargarActividades(semJueves, fechaActual.minusDays(1), JUEVES);
+                cargarActividades(semViernes, fechaActual, VIERNES);
+                cargarActividades(semSabado, fechaActual.plusDays(1), SABADO);
+            }
+            default -> {
+                cargarActividades(semDomingo, fechaActual.minusDays(6), DOMINGO);
+                cargarActividades(semLunes, fechaActual.minusDays(5), LUNES);
+                cargarActividades(semMartes, fechaActual.minusDays(4), MARTES);
+                cargarActividades(semMiercoles, fechaActual.minusDays(3), MIERCOLES);
+                cargarActividades(semJueves, fechaActual.minusDays(2), JUEVES);
+                cargarActividades(semViernes, fechaActual.minusDays(1), VIERNES);
+                cargarActividades(semSabado, fechaActual, SABADO);
+            }
         }
     }
 }

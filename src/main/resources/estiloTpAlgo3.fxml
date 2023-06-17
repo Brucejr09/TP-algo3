@@ -115,7 +115,7 @@
                                     </Label>
                                  </children>
                               </VBox>
-                              <VBox fx:id="semDomingo" prefHeight="200.0" prefWidth="178.0">
+                              <VBox fx:id="semSabado" prefHeight="200.0" prefWidth="178.0">
                                  <children>
                                     <Label alignment="CENTER" prefHeight="26.0" prefWidth="178.0" text="Sabado">
                                        <font>
