@@ -21,7 +21,7 @@ public class Diaria extends Repeticion{
     @Override
     public Intervalo darSiguienteOcurrencia(LocalDateTime fechaHoraActual, Intervalo intervalo) {
         int numeroDeOcurrencia = this.calcularOcurrencia(fechaHoraActual, intervalo);
-        if (numeroDeOcurrencia>=limiteDeOcurrencias){ return intervalo.sumarDias(limiteDeOcurrencias * frecuencia);}
+        if ((numeroDeOcurrencia)>=limiteDeOcurrencias){ return intervalo.sumarDias(limiteDeOcurrencias * frecuencia);}
 
         Intervalo intervaloSiguienteOcurrencia = intervalo.sumarDias(numeroDeOcurrencia * frecuencia);
 

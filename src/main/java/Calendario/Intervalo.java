@@ -29,7 +29,8 @@ public class Intervalo implements Serializable {
     }
 
     public long hasta(LocalDateTime fechaHoraActual, ChronoUnit unidad) {
-        return comienzo.until(fechaHoraActual, unidad);
+        long cant = comienzo.until(fechaHoraActual, unidad);
+        return (cant < 0)? 0:cant;
     }
 
     public Intervalo sumarDias(int cantDias) {

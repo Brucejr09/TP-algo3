@@ -16,7 +16,7 @@ public class EtapaTres {
     @Test
     public void Test01PedirActividadesDelDiaFuncionaCorrectamente() {
         Calendario calendario = new Calendario();
-        LocalDate fechaActual = LocalDate.of(2023,6,9);
+        LocalDate fechaActual = LocalDate.of(2023,6,5);
         LocalDateTime fechaHoraComienzo = LocalDateTime.of(2023, 6, 9, 12, 0);
         LocalDateTime fechaHoraFin = LocalDateTime.of(2023, 6, 9, 22, 0);
         LocalDateTime finalRepeticion = LocalDateTime.of(2023, 6, 19, 22, 0);
@@ -40,6 +40,10 @@ public class EtapaTres {
         intervalo = new Intervalo(fechaHoraComienzo, fechaHoraFin);
 
         calendario.crearEvento("prueba","prueba", tipoRepeticion, intervalo);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 0);
+
+        fechaActual = LocalDate.of(2023,6,9);
 
         assertEquals(calendario.actividadesDelDia(fechaActual).size(), 3);
 
@@ -70,6 +74,65 @@ public class EtapaTres {
         fechaActual = LocalDate.of(2023,6,20);
 
         assertEquals(calendario.actividadesDelDia(fechaActual).size(), 1);
-
     }
+
+    @Test
+    public void Test02RepeticionDiariaDeberiaAsignarLimiteCorrectamente() {
+        int limiteDeOcurrencias = 3;
+        LocalDateTime fechaHoraComienzo = LocalDateTime.of(2023, 6, 9, 12, 0);
+        LocalDateTime fechaHoraFin = LocalDateTime.of(2023, 6, 9, 22, 0);
+        Repeticion tipoRepeticion = new Diaria(limiteDeOcurrencias,5);
+        Intervalo intervalo = new Intervalo(fechaHoraComienzo, fechaHoraFin);
+        tipoRepeticion.resolverCompatibilidadCon(intervalo);
+
+        assertEquals(3, tipoRepeticion.obtenerLimiteDeOcurrencias());
+    }
+
+    @Test
+    public void Test03EventoDiariaConLimiteDeOcurrenciasFuncionaCorrectamente() {
+        int limiteDeOcurrencias = 3;
+        Calendario calendario = new Calendario();
+        LocalDate fechaActual = LocalDate.of(2023,6,8);
+        LocalDateTime fechaHoraComienzo = LocalDateTime.of(2023, 6, 9, 12, 0);
+        LocalDateTime fechaHoraFin = LocalDateTime.of(2023, 6, 9, 22, 0);
+        Repeticion tipoRepeticion = new Diaria(limiteDeOcurrencias,2);
+        Intervalo intervalo = new Intervalo(fechaHoraComienzo, fechaHoraFin);
+
+        calendario.crearEvento("prueba","prueba", tipoRepeticion, intervalo);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 0);
+        assertEquals(3, tipoRepeticion.obtenerLimiteDeOcurrencias());
+
+        fechaActual = LocalDate.of(2023,6,9);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 1);
+
+        fechaActual = LocalDate.of(2023,6,10);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 0);
+
+        fechaActual = LocalDate.of(2023,6,11);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 1);
+
+        fechaActual = LocalDate.of(2023,6,12);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 0);
+
+        fechaActual = LocalDate.of(2023,6,13);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 1);
+
+        fechaActual = LocalDate.of(2023,6,14);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 0);
+
+        fechaActual = LocalDate.of(2023,6,15);
+
+        //El modelo esta diseñado para que el evento se repita limiteDeOcurrencias + 1
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 1);
+    }
+
+
 }
+
