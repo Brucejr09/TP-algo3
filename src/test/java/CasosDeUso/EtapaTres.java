@@ -89,7 +89,7 @@ public class EtapaTres {
     }
 
     @Test
-    public void Test03EventoDiariaConLimiteDeOcurrenciasFuncionaCorrectamente() {
+    public void Test03EventoDiarioConLimiteDeOcurrenciasFuncionaCorrectamente() {
         int limiteDeOcurrencias = 3;
         Calendario calendario = new Calendario();
         LocalDate fechaActual = LocalDate.of(2023,6,8);
@@ -133,6 +133,40 @@ public class EtapaTres {
         assertEquals(calendario.actividadesDelDia(fechaActual).size(), 1);
     }
 
+    @Test
+    public void Test04EventoDiarioInfinitoConFrecuenciaDe10FuncionaCorrectamente() {
+        Calendario calendario = new Calendario();
+        LocalDate fechaActual = LocalDate.of(2023,6,7);
+        LocalDateTime fechaHoraComienzo = LocalDateTime.of(2023, 6, 9, 12, 0);
+        LocalDateTime fechaHoraFin = LocalDateTime.of(2023, 6, 9, 22, 0);
+        LocalDateTime finalRepeticion = LocalDateTime.MAX;
+        Repeticion tipoRepeticion = new Diaria(finalRepeticion,10);
+        Intervalo intervalo = new Intervalo(fechaHoraComienzo, fechaHoraFin);
+
+        calendario.crearEvento("prueba","prueba", tipoRepeticion, intervalo);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 0);
+
+        fechaActual = LocalDate.of(2023,6,9);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 1);
+
+        fechaActual = LocalDate.of(2023,6,10);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 0);
+
+        fechaActual = LocalDate.of(2023,6,19);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 1);
+
+        fechaActual = LocalDate.of(2023,6,20);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 0);
+
+        fechaActual = LocalDate.of(2023,6,29);
+
+        assertEquals(calendario.actividadesDelDia(fechaActual).size(), 1);
+    }
 
 }
 

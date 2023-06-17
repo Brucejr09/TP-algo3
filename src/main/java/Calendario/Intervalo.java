@@ -33,17 +33,17 @@ public class Intervalo implements Serializable {
         return (cant < 0)? 0:cant;
     }
 
-    public Intervalo sumarDias(int cantDias) {
+    public Intervalo sumarDias(long cantDias) {
         return new Intervalo(comienzo.plusDays(cantDias), fin.plusDays(cantDias));
     }
 
     public DayOfWeek diaDeSemana() { return comienzo.getDayOfWeek(); }
 
-    public Intervalo sumarMeses(int cantMeses) {
+    public Intervalo sumarMeses(long cantMeses) {
         return new Intervalo(comienzo.plusMonths(cantMeses), fin.plusMonths(cantMeses));
     }
 
-    public Intervalo sumarAnios(int cantAnios) {
+    public Intervalo sumarAnios(long cantAnios) {
         return new Intervalo(comienzo.plusYears(cantAnios), fin.plusYears(cantAnios));
     }
 

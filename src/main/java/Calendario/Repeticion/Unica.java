@@ -15,6 +15,6 @@ public class Unica extends Repeticion{
     }
 
     @Override
-    protected int calcularOcurrencia(LocalDateTime fechaHoraActual, Intervalo intervalo) { return 0; }
+    protected long calcularOcurrencia(LocalDateTime fechaHoraActual, Intervalo intervalo) { return 0; }
 
 }

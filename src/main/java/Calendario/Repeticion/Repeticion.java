@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public abstract class Repeticion implements Serializable {
 
     protected LocalDateTime finRepeticion;
-    protected int limiteDeOcurrencias;
+    protected long limiteDeOcurrencias;
 
     protected Repeticion(LocalDateTime finRepeticion){
         this.finRepeticion = finRepeticion;
@@ -31,9 +31,9 @@ public abstract class Repeticion implements Serializable {
 
     public abstract Intervalo darSiguienteOcurrencia(LocalDateTime fechaHoraActual, Intervalo intervalo);
 
-    protected abstract int calcularOcurrencia(LocalDateTime fechaHora, Intervalo intervalo);
+    protected abstract long calcularOcurrencia(LocalDateTime fechaHora, Intervalo intervalo);
 
-    public int obtenerLimiteDeOcurrencias() {
+    public long obtenerLimiteDeOcurrencias() {
         return limiteDeOcurrencias;
     }
 }

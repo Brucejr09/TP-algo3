@@ -20,7 +20,7 @@ public class Anual extends Repeticion {
 
     @Override
     public Intervalo darSiguienteOcurrencia(LocalDateTime fechaHoraActual, Intervalo intervalo) {
-        int numeroDeOcurrencia = this.calcularOcurrencia(fechaHoraActual, intervalo);
+        long numeroDeOcurrencia = this.calcularOcurrencia(fechaHoraActual, intervalo);
         if ( (numeroDeOcurrencia == 0) && (intervalo.comienzaAhoraODespues(fechaHoraActual)) ){ return intervalo; }
         if (numeroDeOcurrencia>=limiteDeOcurrencias){ return intervalo.sumarAnios(limiteDeOcurrencias * frecuencia);}
 
@@ -33,7 +33,7 @@ public class Anual extends Repeticion {
     }
 
     @Override
-    protected int calcularOcurrencia(LocalDateTime fechaHora, Intervalo intervalo) {
+    protected long calcularOcurrencia(LocalDateTime fechaHora, Intervalo intervalo) {
         long anios = intervalo.hasta(fechaHora, ChronoUnit.YEARS);
         long ocurrencia = anios/frecuencia;
 

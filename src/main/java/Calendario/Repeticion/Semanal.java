@@ -44,7 +44,7 @@ public class Semanal extends Repeticion {
         return nuevoIntervalo;
     }
 
-    protected int calcularOcurrencia(LocalDateTime fechaHora, Intervalo intervalo){
+    protected long calcularOcurrencia(LocalDateTime fechaHora, Intervalo intervalo){
         long semanas = intervalo.hasta(fechaHora, ChronoUnit.DAYS) / 7;
         int ocurrencia = (int)semanas;
         Intervalo nuevoIntervalo = intervalo.sumarDias(ocurrencia*7);
