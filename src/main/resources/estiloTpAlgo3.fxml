@@ -136,7 +136,7 @@
                      <content>
                         <VBox prefHeight="690.0" prefWidth="1246.0">
                            <children>
-                              <HBox prefHeight="115.0" prefWidth="1246.0">
+                              <HBox fx:id="semana1" prefHeight="115.0" prefWidth="1246.0">
                                  <children>
                                     <VBox fx:id="mesDomingo1" prefHeight="200.0" prefWidth="178.0">
                                        <children>
@@ -203,7 +203,7 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="115.0" prefWidth="1246.0">
+                              <HBox fx:id="semana2" prefHeight="115.0" prefWidth="1246.0">
                                  <children>
                                     <VBox fx:id="mesDomingo2" prefHeight="200.0" prefWidth="178.0">
                                        <children>
@@ -270,7 +270,7 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="115.0" prefWidth="1246.0">
+                              <HBox fx:id="semana3" prefHeight="115.0" prefWidth="1246.0">
                                  <children>
                                     <VBox fx:id="mesDomingo3" prefHeight="200.0" prefWidth="178.0">
                                        <children>
@@ -337,7 +337,7 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="115.0" prefWidth="1246.0">
+                              <HBox fx:id="semana4" prefHeight="115.0" prefWidth="1246.0">
                                  <children>
                                     <VBox fx:id="mesDomingo4" prefHeight="200.0" prefWidth="178.0">
                                        <children>
@@ -404,7 +404,7 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="115.0" prefWidth="1246.0">
+                              <HBox fx:id="semana5" prefHeight="115.0" prefWidth="1246.0">
                                  <children>
                                     <VBox fx:id="mesDomingo5" prefHeight="200.0" prefWidth="178.0">
                                        <children>
@@ -471,7 +471,7 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="115.0" prefWidth="1246.0">
+                              <HBox fx:id="semana6" prefHeight="115.0" prefWidth="1246.0">
                                  <children>
                                     <VBox fx:id="mesDomingo6" prefHeight="200.0" prefWidth="178.0">
                                        <children>

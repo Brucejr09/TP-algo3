@@ -21,7 +21,7 @@ public class Tarea extends Actividad {
 
     @Override
     public void asignarDiaCompleto(LocalDate dia) {
-        this.fechaDeVencimiento = LocalDateTime.of(dia.plusDays(1), LocalTime.MIN);
+        this.fechaDeVencimiento = LocalDateTime.of(dia, LocalTime.MAX);
     }
     public void completarTarea() {
         this.completada = true;
