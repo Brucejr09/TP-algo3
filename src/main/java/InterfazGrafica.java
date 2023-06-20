@@ -5,6 +5,7 @@ import Calendario.Repeticion.Repeticion;
 import Calendario.Repeticion.Unica;
 import Calendario.Intervalo;
 
+import SeccionesInterfaz.BotonesPrincipales;
 import SeccionesInterfaz.CargadorDeActividades;
 import SeccionesInterfaz.MostrarCalendario;
 import javafx.animation.AnimationTimer;
@@ -211,6 +212,8 @@ public class InterfazGrafica extends Application {
 
         MostrarCalendario impresora = new MostrarCalendario(fechaActual, fecha, nuevoCalendario);
 
+        BotonesPrincipales botones = new BotonesPrincipales(fechaActual, fecha, nuevoCalendario);
+
         if (nuevoCalendario.getProxId() > 0)
             cargador.cargarActividades(dia, fechaActual);
 
@@ -223,42 +226,14 @@ public class InterfazGrafica extends Application {
         anterior.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (tabDia.isSelected()) {
-                    fechaActual = fechaActual.minusDays(1);
-                    fecha.setText(fechaActual.getDayOfMonth() + "-" + fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                    cargador.cargarActividades(dia, fechaActual);
-                }
-                else if (tabSemana.isSelected()) {
-                    fechaActual = fechaActual.minusWeeks(1);
-                    fecha.setText(fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                    cargador.cargarSemana(semDomingo, semLunes, semMartes, semMiercoles, semJueves, semViernes, semSabado, fechaActual);
-                }
-                else {
-                    fechaActual = fechaActual.minusMonths(1);
-                    fecha.setText(fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                    cargador.cargarMes(fechaActual.minusDays(fechaActual.getDayOfMonth() - 1), semana1, semana2, semana3, semana4, semana5, semana6);
-                }
+                fechaActual = botones.cambioDePagina(tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual.minusDays(1), fechaActual.minusWeeks(1), fechaActual.minusMonths(1));
             }
         });
 
         siguiente.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (tabDia.isSelected()) {
-                    fechaActual = fechaActual.plusDays(1);
-                    fecha.setText(fechaActual.getDayOfMonth() + "-" + fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                    cargador.cargarActividades(dia, fechaActual);
-                }
-                else if (tabSemana.isSelected()) {
-                    fechaActual = fechaActual.plusWeeks(1);
-                    fecha.setText(fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                    cargador.cargarSemana(semDomingo, semLunes, semMartes, semMiercoles, semJueves, semViernes, semSabado, fechaActual);
-                }
-                else {
-                    fechaActual = fechaActual.plusMonths(1);
-                    fecha.setText(fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                    cargador.cargarMes(fechaActual.minusDays(fechaActual.getDayOfMonth() - 1), semana1, semana2, semana3, semana4, semana5, semana6);
-                }
+                fechaActual = botones.cambioDePagina(tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual.plusDays(1), fechaActual.plusWeeks(1), fechaActual.plusMonths(1));
             }
         });
 
@@ -435,5 +410,28 @@ public class InterfazGrafica extends Application {
         nuevoEscenario.setTitle("Calendario");
         nuevoEscenario.setScene(nuevaEscena);
         nuevoEscenario.show();
+    }
+
+    private ArrayList<VBox> generadorSemana () {
+        ArrayList<VBox> semana = new ArrayList<>();
+        semana.add(semDomingo);
+        semana.add(semLunes);
+        semana.add(semMartes);
+        semana.add(semMiercoles);
+        semana.add(semJueves);
+        semana.add(semViernes);
+        semana.add(semSabado);
+        return semana;
+    }
+
+    private ArrayList<HBox> generadorMes () {
+        ArrayList<HBox> mes = new ArrayList<>();
+        mes.add(semana1);
+        mes.add(semana2);
+        mes.add(semana3);
+        mes.add(semana4);
+        mes.add(semana5);
+        mes.add(semana6);
+        return mes;
     }
 }
