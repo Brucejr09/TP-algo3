@@ -9,47 +9,44 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class MostrarCalendario {
-    private LocalDate fechaActual;
+    private static final LocalDate FECHAACTUAL = LocalDate.now();
     private Label fecha;
-    private CargadorDeActividades cargador;
+    private final CargadorDeActividades cargador;
 
-    public MostrarCalendario(LocalDate fechaActual, Label fecha, Calendario nuevoCalendario) {
-        this.fechaActual = fechaActual;
+    public MostrarCalendario(Label fecha) {
         this.fecha = fecha;
-        this.cargador = new CargadorDeActividades(nuevoCalendario);
+        this.cargador = new CargadorDeActividades();
     }
 
-    public void mostrarPorDia (Tab tabDia, VBox dia) {
+    public void mostrarPorDia (Calendario calendario, Tab tabDia, VBox dia) {
         tabDia.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                fechaActual = LocalDate.now();
-                fecha.setText(fechaActual.getDayOfMonth() + "-" + fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                cargador.cargarActividades(dia, fechaActual);
+                fecha.setText(FECHAACTUAL.getDayOfMonth() + "-" + FECHAACTUAL.getMonth().name() + "-" + FECHAACTUAL.getYear());
+                cargador.cargarActividades(calendario, dia, FECHAACTUAL);
             }
         });
     }
 
-    public void mostrarPorSemana (Tab tabSemana, VBox semDomingo, VBox semLunes, VBox semMartes, VBox semMiercoles, VBox semJueves, VBox semViernes, VBox semSabado) {
+    public void mostrarPorSemana (Calendario calendario, Tab tabSemana, ArrayList<VBox> semana) {
         tabSemana.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                fechaActual = LocalDate.now();
-                fecha.setText(fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                cargador.cargarSemana(semDomingo, semLunes, semMartes, semMiercoles, semJueves, semViernes, semSabado, fechaActual);
+                fecha.setText(FECHAACTUAL.getMonth().name() + "-" + FECHAACTUAL.getYear());
+                cargador.cargarSemana(calendario, semana, FECHAACTUAL);
             }
         });
     }
 
-    public void mostrarPorMes (Tab tabMes, HBox semana1, HBox semana2, HBox semana3, HBox semana4, HBox semana5, HBox semana6) {
+    public void mostrarPorMes (Calendario calendario, Tab tabMes, ArrayList<HBox> mes) {
         tabMes.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                fechaActual = LocalDate.now();
-                fecha.setText(fechaActual.getMonth().name() + "-" + fechaActual.getYear());
-                cargador.cargarMes(fechaActual.minusDays(fechaActual.getDayOfMonth() - 1), semana1, semana2, semana3, semana4, semana5, semana6);
+                fecha.setText(FECHAACTUAL.getMonth().name() + "-" + FECHAACTUAL.getYear());
+                cargador.cargarMes(calendario, mes, FECHAACTUAL.minusDays(FECHAACTUAL.getDayOfMonth() - 1));
             }
         });
     }

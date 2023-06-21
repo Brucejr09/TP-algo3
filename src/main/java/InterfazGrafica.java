@@ -208,32 +208,32 @@ public class InterfazGrafica extends Application {
         fechaActual = LocalDate.now();
         fecha.setText(LocalDate.now().getDayOfMonth() + "-" + LocalDate.now().getMonth().name() + "-" + LocalDate.now().getYear());
 
-        CargadorDeActividades cargador = new CargadorDeActividades(nuevoCalendario);
+        CargadorDeActividades cargador = new CargadorDeActividades();
 
-        MostrarCalendario impresora = new MostrarCalendario(fechaActual, fecha, nuevoCalendario);
+        MostrarCalendario impresora = new MostrarCalendario(fecha);
 
-        BotonesPrincipales botones = new BotonesPrincipales(fechaActual, fecha, nuevoCalendario);
+        BotonesPrincipales botones = new BotonesPrincipales(fecha);
 
         if (nuevoCalendario.getProxId() > 0)
-            cargador.cargarActividades(dia, fechaActual);
+            cargador.cargarActividades(nuevoCalendario, dia, fechaActual);
 
-        impresora.mostrarPorDia(tabDia, dia);
+        impresora.mostrarPorDia(nuevoCalendario, tabDia, dia);
 
-        impresora.mostrarPorSemana(tabSemana, semDomingo, semLunes, semMartes, semMiercoles, semJueves, semViernes, semSabado);
+        impresora.mostrarPorSemana(nuevoCalendario, tabSemana, generadorSemana());
 
-        impresora.mostrarPorMes(tabMes, semana1, semana2, semana3, semana4, semana5, semana6);
+        impresora.mostrarPorMes(nuevoCalendario, tabMes, generadorMes());
 
         anterior.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                fechaActual = botones.cambioDePagina(tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual.minusDays(1), fechaActual.minusWeeks(1), fechaActual.minusMonths(1));
+                fechaActual = botones.cambioDePagina(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual.minusDays(1), fechaActual.minusWeeks(1), fechaActual.minusMonths(1));
             }
         });
 
         siguiente.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                fechaActual = botones.cambioDePagina(tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual.plusDays(1), fechaActual.plusWeeks(1), fechaActual.plusMonths(1));
+                fechaActual = botones.cambioDePagina(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual.plusDays(1), fechaActual.plusWeeks(1), fechaActual.plusMonths(1));
             }
         });
 
@@ -354,13 +354,13 @@ public class InterfazGrafica extends Application {
                 nuevoCalendario.crearEvento(titulo.getText(), descripcion.getText(), repeticion, intervalo);
 
                 if (tabDia.isSelected()) {
-                    cargador.cargarActividades(dia, fechaActual);
+                    cargador.cargarActividades(nuevoCalendario, dia, fechaActual);
                 }
                 else if (tabSemana.isSelected()) {
-                    cargador.cargarSemana(semDomingo, semLunes, semMartes, semMiercoles, semJueves, semViernes, semSabado, fechaActual);
+                    cargador.cargarSemana(nuevoCalendario, generadorSemana(), fechaActual);
                 }
                 else {
-                    cargador.cargarMes(fechaActual.minusDays(fechaActual.getDayOfMonth() - 1), semana1, semana2, semana3, semana4, semana5, semana6);
+                    cargador.cargarMes(nuevoCalendario, generadorMes(), fechaActual.minusDays(fechaActual.getDayOfMonth() - 1));
                 }
 
                 escenario.setTitle("Calendario");
@@ -392,13 +392,13 @@ public class InterfazGrafica extends Application {
                 }
 
                 if (tabDia.isSelected()) {
-                    cargador.cargarActividades(dia, fechaActual);
+                    cargador.cargarActividades(nuevoCalendario, dia, fechaActual);
                 }
                 else if (tabSemana.isSelected()) {
-                    cargador.cargarSemana(semDomingo, semLunes, semMartes, semMiercoles, semJueves, semViernes, semSabado, fechaActual);
+                    cargador.cargarSemana(nuevoCalendario, generadorSemana(), fechaActual);
                 }
                 else {
-                    cargador.cargarMes(fechaActual.minusDays(fechaActual.getDayOfMonth() - 1), semana1, semana2, semana3, semana4, semana5, semana6);
+                    cargador.cargarMes(nuevoCalendario, generadorMes(), fechaActual.minusDays(fechaActual.getDayOfMonth() - 1));
                 }
 
                 escenario.setTitle("Calendario");
