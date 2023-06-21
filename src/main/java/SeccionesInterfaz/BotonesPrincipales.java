@@ -1,9 +1,7 @@
 package SeccionesInterfaz;
 
 import Calendario.Calendario;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.HBox;

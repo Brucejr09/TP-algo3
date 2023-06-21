@@ -1,6 +1,7 @@
 package SeccionesInterfaz;
 
 import Calendario.Calendario;
+
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -49,5 +50,17 @@ public class MostrarCalendario {
                 cargador.cargarMes(calendario, mes, FECHAACTUAL.minusDays(FECHAACTUAL.getDayOfMonth() - 1));
             }
         });
+    }
+
+    public void mostrarPorSeleccion (Calendario calendario, Tab tabDia, Tab tabSemana, VBox dia, ArrayList<VBox> semana, ArrayList<HBox> mes, LocalDate fecha) {
+        if (tabDia.isSelected()) {
+            cargador.cargarActividades(calendario, dia, fecha);
+        }
+        else if (tabSemana.isSelected()) {
+            cargador.cargarSemana(calendario, semana, fecha);
+        }
+        else {
+            cargador.cargarMes(calendario, mes, fecha.minusDays(fecha.getDayOfMonth() - 1));
+        }
     }
 }

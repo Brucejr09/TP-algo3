@@ -1,17 +1,12 @@
-import Calendario.Actividad.Actividad;
 import Calendario.Calendario;
-import Calendario.Repeticion.Diaria;
 import Calendario.Repeticion.Repeticion;
-import Calendario.Repeticion.Unica;
 import Calendario.Intervalo;
 
-import SeccionesInterfaz.BotonesPrincipales;
-import SeccionesInterfaz.CargadorDeActividades;
-import SeccionesInterfaz.MostrarCalendario;
+import SeccionesInterfaz.*;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,17 +24,6 @@ public class InterfazGrafica extends Application {
     private Calendario nuevoCalendario;
 
     private LocalDate fechaActual;
-
-    private static final SpinnerValueFactory<Integer> FABRICACANTIDADDIAS = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 365, 1);
-    private static final SpinnerValueFactory<Integer> FABRICACANTIDADREPETICIONES = new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 365, 2);
-
-    private static final SpinnerValueFactory<Integer> FABRICAHORACOMIENZO = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
-    private static final SpinnerValueFactory<Integer> FABRICAHORAFINALIZA = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
-    private static final SpinnerValueFactory<Integer> FABRICAHORAVENCIMIENTO = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
-
-    private static final SpinnerValueFactory<Integer> FABRICAMINUTOCOMIENZO = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
-    private static final SpinnerValueFactory<Integer> FABRICAMINUTOFINALIZA = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
-    private static final SpinnerValueFactory<Integer> FABRICAMINUTOVENCIMIENTO = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
 
     @FXML
     private Button anterior;
@@ -226,14 +210,16 @@ public class InterfazGrafica extends Application {
         anterior.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                fechaActual = botones.cambioDePagina(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual.minusDays(1), fechaActual.minusWeeks(1), fechaActual.minusMonths(1));
+                fechaActual = botones.cambioDePagina(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(),
+                        fechaActual.minusDays(1), fechaActual.minusWeeks(1), fechaActual.minusMonths(1));
             }
         });
 
         siguiente.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                fechaActual = botones.cambioDePagina(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual.plusDays(1), fechaActual.plusWeeks(1), fechaActual.plusMonths(1));
+                fechaActual = botones.cambioDePagina(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(),
+                        fechaActual.plusDays(1), fechaActual.plusWeeks(1), fechaActual.plusMonths(1));
             }
         });
 
@@ -241,7 +227,7 @@ public class InterfazGrafica extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    utilizarInterfaz(escenario, escena, cargador);
+                    utilizarInterfaz(escenario, escena, impresora);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -270,47 +256,24 @@ public class InterfazGrafica extends Application {
         nuevoCalendario.serializar(bufferArchivo);
     }
 
-    private void utilizarInterfaz (Stage escenario, Scene escena, CargadorDeActividades cargador) throws IOException {
+    private void utilizarInterfaz (Stage escenario, Scene escena, MostrarCalendario impresora) throws IOException {
         Stage nuevoEscenario = (Stage) crear.getScene().getWindow();
         FXMLLoader nuevoCargadorInterfaz = new FXMLLoader(getClass().getResource("crear.fxml"));
         nuevoCargadorInterfaz.setController(this);
         VBox nuevaInterfaz = nuevoCargadorInterfaz.load();
         Scene nuevaEscena = new Scene(nuevaInterfaz);
 
-        cantidadDias.setValueFactory(FABRICACANTIDADDIAS);
-        cantidadRepeticiones.setValueFactory(FABRICACANTIDADREPETICIONES);
+        ControladorDeCreacion creacion = new ControladorDeCreacion();
 
-        horaComienzo.setValueFactory(FABRICAHORACOMIENZO);
-        horaFinaliza.setValueFactory(FABRICAHORAFINALIZA);
-        horaVencimiento.setValueFactory(FABRICAHORAVENCIMIENTO);
+        Inicializador inicio = new Inicializador();
 
-        minutoComienzo.setValueFactory(FABRICAMINUTOCOMIENZO);
-        minutoFinaliza.setValueFactory(FABRICAMINUTOFINALIZA);
-        minutoVencimiento.setValueFactory(FABRICAMINUTOVENCIMIENTO);
+        inicio.inicializadorCantidades(cantidadDias, cantidadRepeticiones);
 
+        inicio.inicializadorHoras(horaComienzo, horaFinaliza, horaVencimiento);
 
+        inicio.inicializadorMinutos(minutoComienzo, minutoFinaliza, minutoVencimiento);
 
-        cantidadDias.getValueFactory().setValue(1);
-        cantidadRepeticiones.getValueFactory().setValue(2);
-
-        horaComienzo.getValueFactory().setValue(0);
-        horaFinaliza.getValueFactory().setValue(0);
-        horaVencimiento.getValueFactory().setValue(0);
-
-        minutoComienzo.getValueFactory().setValue(0);
-        minutoFinaliza.getValueFactory().setValue(0);
-        minutoVencimiento.getValueFactory().setValue(0);
-
-
-
-        fechaComienzo.setValue(fechaActual);
-        fechaFinaliza.setValue(fechaActual.plusDays(1));
-        fechaDiaCompletoEvento.setValue(fechaActual);
-
-        fechaVencimiento.setValue(fechaActual.plusDays(1));
-        fechaDiaCompletoTarea.setValue(fechaActual);
-
-        fechaRepeticion.setValue(fechaActual.plusDays(1));
+        inicio.inicializadorFechas(fechaActual, fechaComienzo, fechaFinaliza, fechaDiaCompletoEvento, fechaVencimiento, fechaDiaCompletoTarea, fechaRepeticion);
 
         repeticionInfinita.setSelected(true);
         unico.setSelected(true);
@@ -318,50 +281,16 @@ public class InterfazGrafica extends Application {
         crearEvento.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                creacion.controlDeTexto(titulo, descripcion);
 
+                Repeticion repeticion = creacion.creacionRepeticion(unico, repeticionInfinita, repeticionFecha, cantidadDias, fechaRepeticion, cantidadRepeticiones);
 
-                Repeticion repeticion;
-
-                LocalDateTime comienza = LocalDateTime.of(fechaComienzo.getValue(), LocalTime.of(horaComienzo.getValue(), minutoComienzo.getValue()));
-                LocalDateTime finaliza = LocalDateTime.of(fechaFinaliza.getValue(), LocalTime.of(horaFinaliza.getValue(), minutoFinaliza.getValue()));
-
-                Intervalo intervalo = new Intervalo(comienza, finaliza);
-
-                if (titulo.getText().isEmpty())
-                    titulo.setText("sin titulo");
-
-                if (descripcion.getText().isEmpty())
-                    descripcion.setText("");
-
-                if (unico.isSelected())
-                    repeticion = new Unica();
-                else {
-                    if (repeticionInfinita.isSelected()) {
-                        repeticion = new Diaria(LocalDateTime.MAX, cantidadDias.getValue());
-                    }else if (repeticionFecha.isSelected()) {
-                        repeticion = new Diaria(LocalDateTime.of(fechaRepeticion.getValue(), LocalTime.MIN), cantidadDias.getValue());
-                    }else{
-                        repeticion = new Diaria(cantidadRepeticiones.getValue() - 1, cantidadDias.getValue());
-                    }
-                }
-
-                if (titledPaneDiaCompletoEvento.isExpanded()) {
-                    LocalDateTime dia = LocalDateTime.of(fechaDiaCompletoEvento.getValue(), LocalTime.MIN);
-
-                    intervalo = new Intervalo(dia);
-                }
+                Intervalo intervalo = creacion.creacionIntervalo(fechaComienzo, fechaFinaliza, fechaDiaCompletoEvento, horaComienzo, horaFinaliza,
+                        minutoComienzo, minutoFinaliza, titledPaneDiaCompletoEvento);
                 
                 nuevoCalendario.crearEvento(titulo.getText(), descripcion.getText(), repeticion, intervalo);
 
-                if (tabDia.isSelected()) {
-                    cargador.cargarActividades(nuevoCalendario, dia, fechaActual);
-                }
-                else if (tabSemana.isSelected()) {
-                    cargador.cargarSemana(nuevoCalendario, generadorSemana(), fechaActual);
-                }
-                else {
-                    cargador.cargarMes(nuevoCalendario, generadorMes(), fechaActual.minusDays(fechaActual.getDayOfMonth() - 1));
-                }
+                impresora.mostrarPorSeleccion(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual);
 
                 escenario.setTitle("Calendario");
                 escenario.setScene(escena);
@@ -372,11 +301,7 @@ public class InterfazGrafica extends Application {
         crearTarea.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (titulo.getText().isEmpty())
-                    titulo.setText("sin titulo");
-
-                if (descripcion.getText().isEmpty())
-                    descripcion.setText("");
+                creacion.controlDeTexto(titulo, descripcion);
 
                 if (titledPaneTarea.isExpanded()) {
                     nuevoCalendario.crearTarea(titulo.getText(), descripcion.getText(),
@@ -391,15 +316,7 @@ public class InterfazGrafica extends Application {
                     nuevoCalendario.crearTarea(titulo.getText(), descripcion.getText(), fechaDiaCompletoTarea.getValue());
                 }
 
-                if (tabDia.isSelected()) {
-                    cargador.cargarActividades(nuevoCalendario, dia, fechaActual);
-                }
-                else if (tabSemana.isSelected()) {
-                    cargador.cargarSemana(nuevoCalendario, generadorSemana(), fechaActual);
-                }
-                else {
-                    cargador.cargarMes(nuevoCalendario, generadorMes(), fechaActual.minusDays(fechaActual.getDayOfMonth() - 1));
-                }
+                impresora.mostrarPorSeleccion(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual);
 
                 escenario.setTitle("Calendario");
                 escenario.setScene(escena);

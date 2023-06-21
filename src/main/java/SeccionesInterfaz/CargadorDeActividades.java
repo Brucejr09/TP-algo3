@@ -2,6 +2,7 @@ package SeccionesInterfaz;
 
 import Calendario.Actividad.Actividad;
 import Calendario.Calendario;
+
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
