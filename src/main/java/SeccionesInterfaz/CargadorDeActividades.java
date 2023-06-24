@@ -6,6 +6,7 @@ import Calendario.Calendario;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -137,6 +138,7 @@ public class CargadorDeActividades {
         columna.getChildren().clear();
 
         Label diaConFecha = new Label(dia + " " + fecha.getDayOfMonth());
+        diaConFecha.setFont(new Font(15));
         columna.getChildren().add(diaConFecha);
 
         ArrayList<Actividad> actividadesCalendario = calendario.actividadesDelDia(fecha);

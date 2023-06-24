@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 
 public class ContenedorActividad extends VBox {
 
@@ -16,6 +17,7 @@ public class ContenedorActividad extends VBox {
         this.actividad = actividad;
         boolean esEvento = (actividad.getTitulo().substring(0,1).equals("E"));
         Label titulo = new Label(actividad.getTitulo().substring(2));
+        titulo.setFont(new Font(13));
 
         Label intervalo = new Label(actividad.getIntervalo());
 
