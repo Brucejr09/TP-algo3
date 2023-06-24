@@ -39,5 +39,5 @@ public abstract class Actividad implements DiaCompleto, Serializable {
 
     public abstract boolean soyDelDia (LocalDate dia);
 
-    public abstract String getIntervalo();
+    public abstract String getIntervalo(LocalDate fecha);
 }

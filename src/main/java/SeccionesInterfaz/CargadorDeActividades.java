@@ -28,7 +28,7 @@ public class CargadorDeActividades {
         ArrayList<Actividad> actividadesCalendario = calendario.actividadesDelDia(fecha);
 
         for (Actividad actividad : actividadesCalendario) {
-            ContenedorActividad nuevo = new ContenedorActividad(actividad);
+            ContenedorActividad nuevo = new ContenedorActividad(actividad, fecha);
 
             columna.getChildren().add(nuevo);
         }
@@ -144,7 +144,7 @@ public class CargadorDeActividades {
         ArrayList<Actividad> actividadesCalendario = calendario.actividadesDelDia(fecha);
 
         for (Actividad actividad : actividadesCalendario) {
-            ContenedorActividad nuevo = new ContenedorActividad(actividad);
+            ContenedorActividad nuevo = new ContenedorActividad(actividad, fecha);
 
             columna.getChildren().add(nuevo);
         }

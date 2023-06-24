@@ -52,12 +52,12 @@ public class Intervalo implements Serializable {
         return comienzo.toLocalDate().isEqual(dia);
     }
 
-    @Override
-    public String toString() {
+    public String toString(LocalDate fecha) {
         LocalTime horaInicio = comienzo.toLocalTime();
-        if (comienzo.plusDays(1).isEqual(fin))
+        if (comienzo.plusDays(1).isEqual(fin)) {
             return "Dia Completo";
-        else
-            return horaInicio.toString() + " - " + fin.toString();
+        }
+        LocalDateTime nuevoFin = LocalDateTime.of(fecha, comienzo.toLocalTime()).plusMinutes(comienzo.until(fin, ChronoUnit.MINUTES));
+        return horaInicio.toString() + " - " + nuevoFin.toString();
     }
 }

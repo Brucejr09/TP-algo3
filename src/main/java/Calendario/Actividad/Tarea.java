@@ -45,7 +45,7 @@ public class Tarea extends Actividad {
     }
 
     @Override
-    public String getIntervalo() {
+    public String getIntervalo(LocalDate fecha) {
         String estado = (completada? "Completa":"Por completar");
         if (fechaDeVencimiento.toLocalTime().equals(LocalTime.MAX)) return "Dia Completo - " + estado;
         return fechaDeVencimiento.toLocalTime().toString() + " - " + estado;

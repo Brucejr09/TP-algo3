@@ -48,8 +48,8 @@ public class Evento extends Actividad{
     }
 
     @Override
-    public String getIntervalo() {
-        return intervalo.toString();
+    public String getIntervalo(LocalDate fecha) {
+        return intervalo.toString(fecha);
     }
 
     @Override
