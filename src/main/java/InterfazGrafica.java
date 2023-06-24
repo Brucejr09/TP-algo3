@@ -273,7 +273,6 @@ public class InterfazGrafica extends Application {
     }
 
     private void utilizarInterfaz (Stage escenario, Scene escena, MostrarCalendario impresora) throws IOException {
-        Stage nuevoEscenario = (Stage) crear.getScene().getWindow();
         FXMLLoader nuevoCargadorInterfaz = new FXMLLoader(getClass().getResource("crear.fxml"));
         nuevoCargadorInterfaz.setController(this);
         VBox nuevaInterfaz = nuevoCargadorInterfaz.load();
@@ -340,9 +339,9 @@ public class InterfazGrafica extends Application {
             }
         });
 
-        nuevoEscenario.setTitle("Calendario");
-        nuevoEscenario.setScene(nuevaEscena);
-        nuevoEscenario.show();
+        escenario.setTitle("Calendario");
+        escenario.setScene(nuevaEscena);
+        escenario.show();
     }
 
     private ArrayList<VBox> generadorSemana () {

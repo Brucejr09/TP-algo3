@@ -20,6 +20,11 @@ public class Evento extends Actividad{
         this.intervalo = intervalo;
     }
 
+    @Override
+    public String getTitulo() {
+        return "E-" + titulo;
+    }
+
     public void asignarAlarma(Alarma alarma) {
         alarmas.add(alarma);
     }
@@ -40,6 +45,11 @@ public class Evento extends Actividad{
     public boolean soyDelDia(LocalDate dia) {
         Intervalo intervaloSiguienteOcurrencia = tipoRepeticion.darSiguienteOcurrencia(LocalDateTime.of(dia, LocalTime.MIN), intervalo);
         return intervaloSiguienteOcurrencia.comienzaHoy(dia) ;
+    }
+
+    @Override
+    public String getIntervalo() {
+        return intervalo.toString();
     }
 
     @Override

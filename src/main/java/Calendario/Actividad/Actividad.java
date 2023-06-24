@@ -21,9 +21,7 @@ public abstract class Actividad implements DiaCompleto, Serializable {
         this.alarmas = new ArrayList<>();
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
+    public abstract String getTitulo();
 
     public String getDescripcion() {
         return descripcion;
@@ -40,4 +38,6 @@ public abstract class Actividad implements DiaCompleto, Serializable {
     public abstract void controlar(LocalDateTime fechaHoraActual);
 
     public abstract boolean soyDelDia (LocalDate dia);
+
+    public abstract String getIntervalo();
 }

@@ -27,11 +27,7 @@ public class CargadorDeActividades {
         ArrayList<Actividad> actividadesCalendario = calendario.actividadesDelDia(fecha);
 
         for (Actividad actividad : actividadesCalendario) {
-            VBox nuevo = new VBox();
-            Label titulo = new Label(actividad.getTitulo());
-            Label descripcion = new Label(actividad.getDescripcion());
-            nuevo.getChildren().add(titulo);
-            nuevo.getChildren().add(descripcion);
+            ContenedorActividad nuevo = new ContenedorActividad(actividad);
 
             columna.getChildren().add(nuevo);
         }
@@ -146,11 +142,7 @@ public class CargadorDeActividades {
         ArrayList<Actividad> actividadesCalendario = calendario.actividadesDelDia(fecha);
 
         for (Actividad actividad : actividadesCalendario) {
-            VBox nuevo = new VBox();
-            Label titulo = new Label(actividad.getTitulo());
-            Label descripcion = new Label(actividad.getDescripcion());
-            nuevo.getChildren().add(titulo);
-            nuevo.getChildren().add(descripcion);
+            ContenedorActividad nuevo = new ContenedorActividad(actividad);
 
             columna.getChildren().add(nuevo);
         }

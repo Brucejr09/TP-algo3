@@ -15,6 +15,11 @@ public class Tarea extends Actividad {
         this.completada = false;
     }
 
+    @Override
+    public String getTitulo() {
+        return "T-" + titulo;
+    }
+
     public void asignarVencimiento(LocalDateTime fechaHoraVencimiento) {
         this.fechaDeVencimiento = fechaHoraVencimiento;
     }
@@ -37,6 +42,13 @@ public class Tarea extends Actividad {
     @Override
     public boolean soyDelDia(LocalDate dia) {
         return fechaDeVencimiento.toLocalDate().isEqual(dia);
+    }
+
+    @Override
+    public String getIntervalo() {
+        String estado = (completada? "Completa":"Por completar");
+        if (fechaDeVencimiento.toLocalTime().equals(LocalTime.MAX)) return "Dia Completo - " + estado;
+        return fechaDeVencimiento.toLocalTime().toString() + " - " + estado;
     }
 
     public boolean estaCompletada() {

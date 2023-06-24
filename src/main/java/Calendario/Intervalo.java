@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 public class Intervalo implements Serializable {
@@ -49,5 +50,14 @@ public class Intervalo implements Serializable {
 
     public boolean comienzaHoy(LocalDate dia) {
         return comienzo.toLocalDate().isEqual(dia);
+    }
+
+    @Override
+    public String toString() {
+        LocalTime horaInicio = comienzo.toLocalTime();
+        if (comienzo.plusDays(1).isEqual(fin))
+            return "Dia Completo";
+        else
+            return horaInicio.toString() + " - " + fin.toString();
     }
 }
