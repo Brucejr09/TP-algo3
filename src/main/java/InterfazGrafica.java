@@ -7,6 +7,7 @@ import SeccionesInterfaz.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -201,11 +202,26 @@ public class InterfazGrafica extends Application {
         if (nuevoCalendario.getProxId() > 0)
             cargador.cargarActividades(nuevoCalendario, dia, fechaActual);
 
-        impresora.mostrarPorDia(nuevoCalendario, tabDia, dia);
+        tabDia.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                impresora.mostrarPorDia(nuevoCalendario, dia, fechaActual);
+            }
+        });
 
-        impresora.mostrarPorSemana(nuevoCalendario, tabSemana, generadorSemana());
+        tabSemana.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                impresora.mostrarPorSemana(nuevoCalendario, generadorSemana(), fechaActual);
+            }
+        });
 
-        impresora.mostrarPorMes(nuevoCalendario, tabMes, generadorMes());
+        tabMes.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                impresora.mostrarPorMes(nuevoCalendario, generadorMes(), fechaActual);
+            }
+        });
 
         anterior.setOnAction(new EventHandler<ActionEvent>() {
             @Override
