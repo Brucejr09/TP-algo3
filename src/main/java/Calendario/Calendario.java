@@ -21,8 +21,12 @@ public class Calendario implements Serializable{
         this.proxId = 0;
     }
 
-    public void setActividades(Hashtable<Integer, Actividad> actividades) {
-        this.actividades = actividades;
+    public void setActividad(Actividad actividad, int posicion) {
+        this.actividades.put(posicion, actividad);
+    }
+
+    public void eliminarActividad (int posicion) {
+        this.actividades.remove(posicion);
     }
 
     public int getProxId() {
@@ -82,10 +86,6 @@ public class Calendario implements Serializable{
             nuevasActividades = new Hashtable<>();
         }
         return  nuevasActividades;
-    }
-
-    public Actividad buscarActividad(int index) {
-        return actividades.get(index);
     }
 
     public ArrayList<Actividad> actividadesDelDia (LocalDate dia) {

@@ -150,7 +150,7 @@ public class CargadorDeActividades {
         }
     }
 
-    private ArrayList<VBox> cambioALista (HBox semana) {
+    public ArrayList<VBox> cambioALista (HBox semana) {
         ArrayList<VBox> lista = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             lista.add((VBox)semana.getChildren().get(i));

@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -187,6 +188,78 @@ public class InterfazGrafica extends Application {
     @FXML
     private Spinner<Integer> cantidadTiempoAlarma;
 
+    @FXML
+    private Button cancelarEvento;
+
+    @FXML
+    private Button modificarEvento;
+
+    @FXML
+    private Button eliminarEvento;
+
+    @FXML
+    private CheckBox agregarAlarmaEvento;
+
+    @FXML
+    private Spinner<Integer> cantidadTiempoAlarmaEvento;
+
+    @FXML
+    private Button cancelarTarea;
+
+    @FXML
+    private Button modificarTarea;
+
+    @FXML
+    private Button eliminarTarea;
+
+    @FXML
+    private CheckBox agregarAlarmaTarea;
+
+    @FXML
+    private Spinner<Integer> cantidadTiempoAlarmaTarea;
+
+    @FXML
+    private TextArea descripcionEvento;
+
+    @FXML
+    private DatePicker fechaComienzoEvento;
+
+    @FXML
+    private DatePicker fechaFinalizaEvento;
+
+    @FXML
+    private Spinner<Integer> horaComienzoEvento;
+
+    @FXML
+    private Spinner<Integer> horaFinalizaEvento;
+
+    @FXML
+    private Spinner<Integer> minutoComienzoEvento;
+
+    @FXML
+    private Spinner<Integer> minutoFinalizaEvento;
+
+    @FXML
+    private TextField tituloEvento;
+
+    @FXML
+    private CheckBox completarTarea;
+
+    @FXML
+    private TextArea descripcionTarea;
+
+    @FXML
+    private DatePicker fechaVencimientoTarea;
+
+    @FXML
+    private Spinner<Integer> horaVencimientoTarea;
+
+    @FXML
+    private Spinner<Integer> minutoVencimientoTarea;
+
+    @FXML
+    private TextField tituloTarea;
+
 
     @Override
     public void start(Stage escenario) throws Exception {
@@ -281,6 +354,49 @@ public class InterfazGrafica extends Application {
                 }
 
                 alertas.chequeoDeAlarmas(actividadesAControlar, fechaDeControl);
+
+                if (tabDia.isSelected()) {
+                    for (int i = 0; i < dia.getChildren().size(); i++) {
+                        int indice = i;
+                        dia.getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                modificador(dia, indice, escenario, escena, impresora, alertas);
+                            }
+                        });
+                    }
+                }
+                else if (tabSemana.isSelected()) {
+                    ArrayList<VBox> semana = generadorSemana();
+                    for (VBox vBox : semana) {
+                        for (int j = 0; j < vBox.getChildren().size(); j++) {
+                            int indice = j;
+                            vBox.getChildren().get(j).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                                @Override
+                                public void handle(MouseEvent mouseEvent) {
+                                    modificador(vBox, indice, escenario, escena, impresora, alertas);
+                                }
+                            });
+                        }
+                    }
+                }
+                else {
+                    ArrayList<HBox> mes = generadorMes();
+                    for (HBox mess : mes) {
+                        ArrayList<VBox> semana = cargador.cambioALista(mess);
+                        for (VBox vBox : semana) {
+                            for (int i = 0; i < vBox.getChildren().size(); i++) {
+                                int indice = i;
+                                vBox.getChildren().get(i).setOnMouseClicked(new EventHandler<MouseEvent>() {
+                                    @Override
+                                    public void handle(MouseEvent mouseEvent) {
+                                        modificador(vBox, indice, escenario, escena, impresora, alertas);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
             }
         };
 
@@ -386,6 +502,132 @@ public class InterfazGrafica extends Application {
         escenario.show();
     }
 
+    public void interfazEvento (Stage escenario, Scene escena, ContenedorActividad nuevo, int posicion,
+                                MostrarCalendario impresora, ControladorDeAlarma alertas) throws IOException {
+        FXMLLoader nuevoCargadorInterfaz = new FXMLLoader(getClass().getResource("evento.fxml"));
+        nuevoCargadorInterfaz.setController(this);
+        VBox nuevaInterfaz = nuevoCargadorInterfaz.load();
+        Scene nuevaEscena = new Scene(nuevaInterfaz);
+
+        nuevo.inicializar(fechaActual, cantidadTiempoAlarmaEvento, horaComienzoEvento, horaFinalizaEvento, minutoComienzoEvento, minutoFinalizaEvento,
+                tituloEvento, descripcionEvento, fechaComienzoEvento, fechaFinalizaEvento);
+
+        agregarAlarmaEvento.setSelected(false);
+
+        cancelarEvento.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                escenario.setTitle("Calendario");
+                escenario.setScene(escena);
+                escenario.show();
+            }
+        });
+
+        modificarEvento.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                nuevoCalendario.setActividad(nuevo.cargar(tituloEvento, descripcionEvento, fechaComienzoEvento, fechaFinalizaEvento,
+                        horaComienzoEvento, horaFinalizaEvento, minutoComienzoEvento, minutoFinalizaEvento), posicion);
+
+                if (agregarAlarmaEvento.isSelected()) {
+                    Alarma nueva = new Relativa(new Notificacion("La actividad comenzara en " + cantidadTiempoAlarmaEvento.getValue() + " minutos"), cantidadTiempoAlarmaEvento.getValue() - 1);
+                    nuevoCalendario.asignarAlarma(nueva, posicion);
+                }
+
+                impresora.mostrarPorSeleccion(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual);
+
+                actividadesAControlar = new ArrayList<>(alertas.actividadesActualizadas(nuevoCalendario, fechaDeControl));
+
+                escenario.setTitle("Calendario");
+                escenario.setScene(escena);
+                escenario.show();
+            }
+        });
+
+        eliminarEvento.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                nuevoCalendario.eliminarActividad(posicion);
+
+                impresora.mostrarPorSeleccion(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual);
+
+                actividadesAControlar = new ArrayList<>(alertas.actividadesActualizadas(nuevoCalendario, fechaDeControl));
+
+                escenario.setTitle("Calendario");
+                escenario.setScene(escena);
+                escenario.show();
+            }
+        });
+
+
+        escenario.setTitle("Calendario");
+        escenario.setScene(nuevaEscena);
+        escenario.show();
+    }
+
+    public void interfazTarea (Stage escenario, Scene escena, ContenedorActividad nuevo, int posicion,
+                               MostrarCalendario impresora, ControladorDeAlarma alertas) throws IOException {
+        FXMLLoader nuevoCargadorInterfaz = new FXMLLoader(getClass().getResource("tarea.fxml"));
+        nuevoCargadorInterfaz.setController(this);
+        VBox nuevaInterfaz = nuevoCargadorInterfaz.load();
+        Scene nuevaEscena = new Scene(nuevaInterfaz);
+
+        nuevo.inicializar(fechaActual, cantidadTiempoAlarmaTarea, tituloTarea, descripcionTarea, horaVencimientoTarea, minutoVencimientoTarea,
+                fechaVencimientoTarea, completarTarea);
+
+        agregarAlarmaTarea.setSelected(false);
+
+        cancelarTarea.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                escenario.setTitle("Calendario");
+                escenario.setScene(escena);
+                escenario.show();
+            }
+        });
+
+        modificarTarea.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                nuevoCalendario.setActividad(nuevo.cargar(tituloTarea, descripcionTarea, fechaVencimientoTarea, horaVencimientoTarea,
+                        minutoVencimientoTarea, completarTarea), posicion);
+
+                if (agregarAlarmaTarea.isSelected()) {
+                    Alarma nueva = new Relativa(new Notificacion("La actividad comenzara en " + cantidadTiempoAlarmaTarea.getValue() + " minutos"), cantidadTiempoAlarmaTarea.getValue() - 1);
+                    nuevoCalendario.asignarAlarma(nueva, posicion);
+                }
+
+                impresora.mostrarPorSeleccion(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual);
+
+                actividadesAControlar = new ArrayList<>(alertas.actividadesActualizadas(nuevoCalendario, fechaDeControl));
+
+                escenario.setTitle("Calendario");
+                escenario.setScene(escena);
+                escenario.show();
+            }
+        });
+
+        eliminarTarea.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                nuevoCalendario.eliminarActividad(posicion);
+
+                impresora.mostrarPorSeleccion(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual);
+
+                actividadesAControlar = new ArrayList<>(alertas.actividadesActualizadas(nuevoCalendario, fechaDeControl));
+
+                escenario.setTitle("Calendario");
+                escenario.setScene(escena);
+                escenario.show();
+            }
+        });
+
+
+        escenario.setTitle("Calendario");
+        escenario.setScene(nuevaEscena);
+        escenario.show();
+    }
+
     private ArrayList<VBox> generadorSemana () {
         ArrayList<VBox> semana = new ArrayList<>();
         semana.add(semDomingo);
@@ -407,5 +649,24 @@ public class InterfazGrafica extends Application {
         mes.add(semana5);
         mes.add(semana6);
         return mes;
+    }
+
+    private void modificador (VBox vBox, int indice, Stage escenario, Scene escena, MostrarCalendario impresora, ControladorDeAlarma alertas) {
+        ContenedorActividad nuevo = (ContenedorActividad) vBox.getChildren().get(indice);
+        int posicion = nuevo.getActividad().obtenerId();
+
+        if (nuevo.getEsEvento()) {
+            try {
+                interfazEvento(escenario, escena, nuevo, posicion, impresora, alertas);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            try {
+                interfazTarea(escenario, escena, nuevo, posicion, impresora, alertas);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

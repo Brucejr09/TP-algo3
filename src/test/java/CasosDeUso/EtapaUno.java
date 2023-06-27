@@ -61,7 +61,7 @@ public class EtapaUno {
         Calendario calendario = new Calendario();
         Tarea tareaACompletar = calendario.crearTarea("Hacer Comida","voy a hacer un guiso",LocalDate.of(2023,7,16));
         Notificable notificable = new CorreoElectronico("algo3@gmail.com");
-        calendario.asignarAlarma(new Relativa(notificable,15),tareaACompletar.obtenerId());
+        calendario.asignarAlarma(new Relativa(notificable,14),tareaACompletar.obtenerId());
 
         this.verificarFuncionamientoCon(calendario, notificable, 0);
     }

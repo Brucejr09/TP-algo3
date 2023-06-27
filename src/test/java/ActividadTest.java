@@ -48,7 +48,7 @@ public class ActividadTest {
 
         assertEquals(0, notificable.obtenerCantidadNotificables());
 
-        tarea.controlar(LocalDateTime.of(2023,6,19,23,30));
+        tarea.controlar(LocalDateTime.of(2023,6,19,23,29));
 
         assertEquals(1, notificable.obtenerCantidadNotificables());
     }

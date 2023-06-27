@@ -30,12 +30,12 @@ public class Evento extends Actividad{
         return this.intervalo.intervaloActual(fecha);
     }
 
-    public void asignarAlarma(Alarma alarma) {
-        alarmas.add(alarma);
+    public Repeticion getTipoRepeticion() {
+        return tipoRepeticion;
     }
 
-    public int obtenerId() {
-        return id;
+    public void asignarAlarma(Alarma alarma) {
+        alarmas.add(alarma);
     }
 
     public void controlar(LocalDateTime fechaHoraActual){

@@ -21,6 +21,14 @@ public class Intervalo implements Serializable {
         this.fin = finaliza;
     }
 
+    public LocalDateTime getComienzo() {
+        return comienzo;
+    }
+
+    public LocalDateTime getFin() {
+        return fin;
+    }
+
     public boolean comienzaAhoraODespues(LocalDateTime fechaHora){
         return comienzo.isAfter(fechaHora) || comienzo.isEqual(fechaHora);
     }

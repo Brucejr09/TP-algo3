@@ -26,6 +26,10 @@ public class Tarea extends Actividad {
         return intervalo;
     }
 
+    public void setCompletada(boolean completada) {
+        this.completada = completada;
+    }
+
     public void asignarVencimiento(LocalDateTime fechaHoraVencimiento) {
         this.fechaDeVencimiento = fechaHoraVencimiento;
     }
@@ -63,10 +67,6 @@ public class Tarea extends Actividad {
 
     public void asignarAlarma(Alarma alarma){
         alarmas.add(alarma);
-    }
-
-    public int obtenerId() {
-        return id;
     }
 
 }

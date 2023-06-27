@@ -44,7 +44,7 @@ public class ControladorDeCreacion {
         LocalDateTime comienza = LocalDateTime.of(fechaComienzo.getValue(), LocalTime.of(horaComienzo.getValue(), minutoComienzo.getValue()));
         LocalDateTime finaliza = LocalDateTime.of(fechaFinaliza.getValue(), LocalTime.of(horaFinaliza.getValue(), minutoFinaliza.getValue()));
 
-        Intervalo intervalo= new Intervalo(comienza, finaliza);
+        Intervalo intervalo = new Intervalo(comienza, finaliza);
 
         if (titledPaneDiaCompletoEvento.isExpanded()) {
             LocalDateTime dia = LocalDateTime.of(fechaDiaCompletoEvento.getValue(), LocalTime.MIN);

@@ -60,4 +60,22 @@ public class Inicializador {
 
         fechaRepeticion.setValue(fecha.plusDays(1));
     }
+
+    public void inicializadorEvento (Spinner<Integer> cantidadTiempoAlarma, Spinner<Integer> horaComienzo, Spinner<Integer> horaFinaliza,
+                                     Spinner<Integer> minutoComienzo, Spinner<Integer> minutoFinaliza) {
+        cantidadTiempoAlarma.setValueFactory(FABRICACANTIDADTIEMPOALARMA);
+
+        horaComienzo.setValueFactory(FABRICAHORACOMIENZO);
+        horaFinaliza.setValueFactory(FABRICAHORAFINALIZA);
+
+        minutoComienzo.setValueFactory(FABRICAMINUTOCOMIENZO);
+        minutoFinaliza.setValueFactory(FABRICAMINUTOFINALIZA);
+    }
+
+    public void inicializadorTarea (Spinner<Integer> cantidadTiempoAlarma, Spinner<Integer> horaVencimiento, Spinner<Integer> minutoVencimiento) {
+        cantidadTiempoAlarma.setValueFactory(FABRICACANTIDADTIEMPOALARMA);
+        cantidadTiempoAlarma.getValueFactory().setValue(1);
+        horaVencimiento.setValueFactory(FABRICAHORAVENCIMIENTO);
+        minutoVencimiento.setValueFactory(FABRICAMINUTOVENCIMIENTO);
+    }
 }
