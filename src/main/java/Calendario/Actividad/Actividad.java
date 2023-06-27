@@ -2,6 +2,7 @@ package Calendario.Actividad;
 
 import Calendario.Alarma.Alarma;
 import Calendario.DiaCompleto;
+import Calendario.Intervalo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -26,6 +27,12 @@ public abstract class Actividad implements DiaCompleto, Serializable {
     public String getDescripcion() {
         return descripcion;
     }
+
+    public ArrayList<Alarma> getAlarmas() {
+        return this.alarmas;
+    }
+
+    public abstract Intervalo obtenerIntervalo (LocalDate fecha);
 
     public void asignarAlarma(Alarma alarma) {
         alarmas.add(alarma);

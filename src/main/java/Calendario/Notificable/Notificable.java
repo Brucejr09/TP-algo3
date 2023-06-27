@@ -8,8 +8,9 @@ public abstract class Notificable implements Serializable {
     public Notificable () {
         this.cantidadNotificables = 0;
     }
-    public void notificar () {
-        this.cantidadNotificables++;
+    public abstract String notificar ();
+    public void aumentarNotificacion () {
+        cantidadNotificables++;
     }
 
     public int obtenerCantidadNotificables () {

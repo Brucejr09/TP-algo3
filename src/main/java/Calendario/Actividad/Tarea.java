@@ -20,6 +20,12 @@ public class Tarea extends Actividad {
         return "T-" + titulo;
     }
 
+    @Override
+    public Intervalo obtenerIntervalo(LocalDate fecha) {
+        Intervalo intervalo = new Intervalo(fechaDeVencimiento);
+        return intervalo;
+    }
+
     public void asignarVencimiento(LocalDateTime fechaHoraVencimiento) {
         this.fechaDeVencimiento = fechaHoraVencimiento;
     }

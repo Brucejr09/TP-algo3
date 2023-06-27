@@ -25,6 +25,11 @@ public class Evento extends Actividad{
         return "E-" + titulo;
     }
 
+    @Override
+    public Intervalo obtenerIntervalo(LocalDate fecha) {
+        return this.intervalo.intervaloActual(fecha);
+    }
+
     public void asignarAlarma(Alarma alarma) {
         alarmas.add(alarma);
     }

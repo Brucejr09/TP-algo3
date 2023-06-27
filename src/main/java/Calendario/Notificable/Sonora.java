@@ -6,4 +6,9 @@ public class Sonora extends Notificable{
     public Sonora (String sonido) {
         this.sonido = sonido;
     }
+
+    @Override
+    public String notificar() {
+        return sonido;
+    }
 }

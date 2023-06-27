@@ -13,8 +13,16 @@ public abstract class Alarma implements Serializable {
         this.tipoDeAviso = tipoDeAviso;
     }
 
-    public void sonarAlarma (LocalDateTime fechaHoraActual, Intervalo intervaloActividad) {
-        if (estaActiva(fechaHoraActual, intervaloActividad)) tipoDeAviso.notificar();
+    public Notificable getTipoDeAviso() {
+        return tipoDeAviso;
+    }
+
+    public int sonarAlarma (LocalDateTime fechaHoraActual, Intervalo intervaloActividad) {
+        if (estaActiva(fechaHoraActual, intervaloActividad)) {
+            tipoDeAviso.aumentarNotificacion();
+            return tipoDeAviso.obtenerCantidadNotificables();
+        }
+        return 0;
     }
 
     protected abstract boolean estaActiva(LocalDateTime fechaHoraActual, Intervalo intervaloActividad);

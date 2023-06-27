@@ -5,4 +5,9 @@ public class CorreoElectronico extends Notificable{
     public CorreoElectronico (String direccionDeCorreo) {
         this.direccionDeCorreo = direccionDeCorreo;
     }
+
+    @Override
+    public String notificar() {
+        return direccionDeCorreo;
+    }
 }

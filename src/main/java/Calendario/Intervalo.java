@@ -60,4 +60,8 @@ public class Intervalo implements Serializable {
         LocalDateTime nuevoFin = LocalDateTime.of(fecha, comienzo.toLocalTime()).plusMinutes(comienzo.until(fin, ChronoUnit.MINUTES));
         return horaInicio.toString() + " - " + nuevoFin.toString();
     }
+
+    public Intervalo intervaloActual (LocalDate fecha) {
+        return new Intervalo(LocalDateTime.of(fecha, comienzo.toLocalTime()),fin);
+    }
 }

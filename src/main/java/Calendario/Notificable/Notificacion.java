@@ -6,4 +6,9 @@ public class Notificacion extends Notificable{
     public Notificacion (String mensaje) {
         this.mensaje = mensaje;
     }
+
+    @Override
+    public String notificar() {
+        return this.mensaje;
+    }
 }

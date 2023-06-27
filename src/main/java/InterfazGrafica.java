@@ -1,4 +1,8 @@
+import Calendario.Actividad.Actividad;
+import Calendario.Alarma.Alarma;
+import Calendario.Alarma.Relativa;
 import Calendario.Calendario;
+import Calendario.Notificable.Notificacion;
 import Calendario.Repeticion.Repeticion;
 import Calendario.Intervalo;
 
@@ -25,6 +29,10 @@ public class InterfazGrafica extends Application {
     private Calendario nuevoCalendario;
 
     private LocalDate fechaActual;
+
+    private LocalDate fechaDeControl;
+
+    private ArrayList<Actividad> actividadesAControlar;
 
     @FXML
     private Button anterior;
@@ -173,6 +181,13 @@ public class InterfazGrafica extends Application {
     @FXML
     private TextArea descripcion;
 
+    @FXML
+    private CheckBox alarmaActiva;
+
+    @FXML
+    private Spinner<Integer> cantidadTiempoAlarma;
+
+
     @Override
     public void start(Stage escenario) throws Exception {
         FXMLLoader cargadorInterfaz = new FXMLLoader(getClass().getResource("estiloTpAlgo3.fxml"));
@@ -190,14 +205,19 @@ public class InterfazGrafica extends Application {
             nuevoCalendario.deSerializar(bufferArchivo);
         } catch (IOException | ClassNotFoundException e) {}
 
-        fechaActual = LocalDate.now();
         fecha.setText(LocalDate.now().getDayOfMonth() + "-" + LocalDate.now().getMonth().name() + "-" + LocalDate.now().getYear());
 
         CargadorDeActividades cargador = new CargadorDeActividades();
 
+        ControladorDeAlarma alertas = new ControladorDeAlarma();
+
         MostrarCalendario impresora = new MostrarCalendario(fecha);
 
         BotonesPrincipales botones = new BotonesPrincipales(fecha);
+
+        fechaDeControl = LocalDate.now();
+        fechaActual = LocalDate.now();
+        actividadesAControlar = new ArrayList<>(alertas.actividadesActualizadas(nuevoCalendario, fechaDeControl));
 
         if (nuevoCalendario.getProxId() > 0)
             cargador.cargarActividades(nuevoCalendario, dia, fechaActual);
@@ -243,7 +263,7 @@ public class InterfazGrafica extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    utilizarInterfaz(escenario, escena, impresora);
+                    utilizarInterfaz(escenario, escena, impresora, alertas);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -254,6 +274,13 @@ public class InterfazGrafica extends Application {
             @Override
             public void handle(long tiempo) {
                 hora.setText("%S".formatted(LocalTime.now()));
+
+                if (!fechaDeControl.equals(LocalDate.now())) {
+                    fechaDeControl = LocalDate.now();
+                    actividadesAControlar = new ArrayList<>(alertas.actividadesActualizadas(nuevoCalendario, fechaDeControl));
+                }
+
+                alertas.chequeoDeAlarmas(actividadesAControlar, fechaDeControl);
             }
         };
 
@@ -272,7 +299,7 @@ public class InterfazGrafica extends Application {
         nuevoCalendario.serializar(bufferArchivo);
     }
 
-    private void utilizarInterfaz (Stage escenario, Scene escena, MostrarCalendario impresora) throws IOException {
+    private void utilizarInterfaz (Stage escenario, Scene escena, MostrarCalendario impresora, ControladorDeAlarma alertas) throws IOException {
         FXMLLoader nuevoCargadorInterfaz = new FXMLLoader(getClass().getResource("crear.fxml"));
         nuevoCargadorInterfaz.setController(this);
         VBox nuevaInterfaz = nuevoCargadorInterfaz.load();
@@ -282,7 +309,7 @@ public class InterfazGrafica extends Application {
 
         Inicializador inicio = new Inicializador();
 
-        inicio.inicializadorCantidades(cantidadDias, cantidadRepeticiones);
+        inicio.inicializadorCantidades(cantidadDias, cantidadRepeticiones, cantidadTiempoAlarma);
 
         inicio.inicializadorHoras(horaComienzo, horaFinaliza, horaVencimiento);
 
@@ -292,6 +319,7 @@ public class InterfazGrafica extends Application {
 
         repeticionInfinita.setSelected(true);
         unico.setSelected(true);
+        alarmaActiva.setSelected(false);
 
         crearEvento.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -305,7 +333,14 @@ public class InterfazGrafica extends Application {
                 
                 nuevoCalendario.crearEvento(titulo.getText(), descripcion.getText(), repeticion, intervalo);
 
+                if (alarmaActiva.isSelected()) {
+                    Alarma nueva = new Relativa(new Notificacion("La actividad comenzara en " + cantidadTiempoAlarma.getValue() + " minutos"), cantidadTiempoAlarma.getValue() - 1);
+                    nuevoCalendario.asignarAlarma(nueva, nuevoCalendario.getProxId() - 1);
+                }
+
                 impresora.mostrarPorSeleccion(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual);
+
+                actividadesAControlar = new ArrayList<>(alertas.actividadesActualizadas(nuevoCalendario, fechaDeControl));
 
                 escenario.setTitle("Calendario");
                 escenario.setScene(escena);
@@ -331,7 +366,14 @@ public class InterfazGrafica extends Application {
                     nuevoCalendario.crearTarea(titulo.getText(), descripcion.getText(), fechaDiaCompletoTarea.getValue());
                 }
 
+                if (alarmaActiva.isSelected()) {
+                    Alarma nueva = new Relativa(new Notificacion("La actividad comenzara en " + cantidadTiempoAlarma.getValue() + " minutos"), cantidadTiempoAlarma.getValue() - 1);
+                    nuevoCalendario.asignarAlarma(nueva, nuevoCalendario.getProxId() - 1);
+                }
+
                 impresora.mostrarPorSeleccion(nuevoCalendario, tabDia, tabSemana, dia, generadorSemana(), generadorMes(), fechaActual);
+
+                actividadesAControlar = new ArrayList<>(alertas.actividadesActualizadas(nuevoCalendario, fechaDeControl));
 
                 escenario.setTitle("Calendario");
                 escenario.setScene(escena);
